@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
@@ -14,9 +15,28 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (store.state.user.username) {
+      next()
+    } else {
+      next({
+        path: '/login',
+        // 存储访问的页面路径，在登录后跳转到访问的页面
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+  } else {
+    next()
+  }
+})
+
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
