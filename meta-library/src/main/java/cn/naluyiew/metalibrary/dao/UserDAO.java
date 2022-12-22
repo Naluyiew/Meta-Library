@@ -1,6 +1,6 @@
 package cn.naluyiew.metalibrary.dao;
 
-import cn.naluyiew.metalibrary.pojo.User;
+import cn.naluyiew.metalibrary.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserDAO extends JpaRepository<User, Integer> {

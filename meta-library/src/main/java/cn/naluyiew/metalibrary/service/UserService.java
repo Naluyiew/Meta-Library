@@ -1,7 +1,7 @@
 package cn.naluyiew.metalibrary.service;
 
 import cn.naluyiew.metalibrary.dao.UserDAO;
-import cn.naluyiew.metalibrary.pojo.User;
+import cn.naluyiew.metalibrary.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

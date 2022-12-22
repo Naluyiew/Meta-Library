@@ -1,7 +1,7 @@
 package cn.naluyiew.metalibrary.controller;
 
-import cn.naluyiew.metalibrary.pojo.Result;
-import cn.naluyiew.metalibrary.pojo.User;
+import cn.naluyiew.metalibrary.entity.Result;
+import cn.naluyiew.metalibrary.entity.User;
 import cn.naluyiew.metalibrary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

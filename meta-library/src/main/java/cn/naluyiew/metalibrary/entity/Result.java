@@ -1,4 +1,4 @@
-package cn.naluyiew.metalibrary.pojo;
+package cn.naluyiew.metalibrary.entity;
 
 public class Result {
     //响应码
