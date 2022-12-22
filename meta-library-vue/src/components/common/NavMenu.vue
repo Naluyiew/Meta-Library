@@ -1,5 +1,5 @@
 <template>
-  <el-menu :default-active="'/index'" router mode="horizontal" style="min-width: 1500px">
+  <el-menu :default-active="'/library'" router mode="horizontal" style="min-width: 1500px">
     <el-menu-item v-for="(item, i) in navList" :key="i" :index="item.name">
       {{ item.navItem }}
     </el-menu-item>

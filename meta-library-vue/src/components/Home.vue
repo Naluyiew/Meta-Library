@@ -1,6 +1,7 @@
 <template>
   <div>
     <NavMenu />
+    <router-view />
   </div>
 </template>
 
