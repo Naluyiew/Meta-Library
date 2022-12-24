@@ -1,8 +1,32 @@
 <template>
-  <el-menu :default-active="0" class="categories">
-    <el-menu-item v-for="(item, i) in sideItem" :key="i" :index="i">
+  <el-menu default-active="0" @select="handleSelect" class="categories">
+    <el-menu-item index="0">
       <i class="el-icon-menu"></i>
-      <span slot="title">{{ item }}</span>
+      <span slot="title">全部</span>
+    </el-menu-item>
+    <el-menu-item index="1">
+      <i class="el-icon-menu"></i>
+      <span slot="title">文学</span>
+    </el-menu-item>
+    <el-menu-item index="2">
+      <i class="el-icon-menu"></i>
+      <span slot="title">流行</span>
+    </el-menu-item>
+    <el-menu-item index="3">
+      <i class="el-icon-menu"></i>
+      <span slot="title">文化</span>
+    </el-menu-item>
+    <el-menu-item index="4">
+      <i class="el-icon-menu"></i>
+      <span slot="title">生活</span>
+    </el-menu-item>
+    <el-menu-item index="5">
+      <i class="el-icon-menu"></i>
+      <span slot="title">经管</span>
+    </el-menu-item>
+    <el-menu-item index="6">
+      <i class="el-icon-menu"></i>
+      <span slot="title">科技</span>
     </el-menu-item>
   </el-menu>
 </template>
@@ -12,7 +36,13 @@ export default {
   name: 'SideMenu',
   data() {
     return {
-      sideItem: ['全部', '教育', '语言', '文学', '艺术', '航天', '科技']
+      cid: ''
+    }
+  },
+  methods: {
+    handleSelect(key) {
+      this.cid = key
+      this.$emit('indexSelect')
     }
   }
 }
@@ -21,6 +51,7 @@ export default {
 <style scoped>
 .categories {
   position: fixed;
+  margin-left: 5%;
   top: 100px;
   width: 150px;
 }
