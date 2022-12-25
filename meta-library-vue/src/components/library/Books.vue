@@ -15,7 +15,7 @@
         </p>
         <p slot="content" style="width: 300px" class="abstract">{{ item.abs }}</p>
         <!-- 图书简要 -->
-        <el-card style="width: 135px;margin-bottom: 20px;height: 233px;float: left;margin-right: 15px" class="book"
+        <el-card style="width: 135px;margin-bottom: 20px;height: 250px;float: left;margin-right: 15px" class="book"
           bodyStyle="padding:10px" shadow="hover">
           <!-- 封面 -->
           <div class="cover" @click="editBook(item)">

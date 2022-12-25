@@ -4,22 +4,23 @@
     <el-dialog title="添加/修改图书" :visible.sync="dialogFormVisible" @close="clear">
       <el-form v-model="form" style="text-align: left" ref="dataForm">
         <el-form-item label="书名" :label-width="formLabelWidth" prop="title">
-          <el-input v-model="form.title" autocomplete="off" placeholder="不加《》"></el-input>
+          <el-input v-model="form.title" autocomplete="off" placeholder="例：元图书馆的发展史"></el-input>
         </el-form-item>
         <el-form-item label="作者" :label-width="formLabelWidth" prop="author">
-          <el-input v-model="form.author" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="出版日期" :label-width="formLabelWidth" prop="date">
-          <el-input v-model="form.date" autocomplete="off"></el-input>
+          <el-input v-model="form.author" autocomplete="off" placeholder="例：栏仔"></el-input>
         </el-form-item>
         <el-form-item label="出版社" :label-width="formLabelWidth" prop="press">
-          <el-input v-model="form.press" autocomplete="off"></el-input>
+          <el-input v-model="form.press" autocomplete="off" placeholder="例：人民出版社"></el-input>
+        </el-form-item>
+        <el-form-item label="出版日期" :label-width="formLabelWidth" prop="date">
+          <el-input v-model="form.date" autocomplete="off" placeholder="例：2022-12-20"></el-input>
         </el-form-item>
         <el-form-item label="封面" :label-width="formLabelWidth" prop="cover">
-          <el-input v-model="form.cover" autocomplete="off" placeholder="图片 URL"></el-input>
+          <el-input v-model="form.cover" autocomplete="off" placeholder="图片保存地址"></el-input>
+          <ImgUpload @onUpload="uploadImg" ref="imgUpload" />
         </el-form-item>
         <el-form-item label="简介" :label-width="formLabelWidth" prop="abs">
-          <el-input type="textarea" v-model="form.abs" autocomplete="off"></el-input>
+          <el-input type="textarea" v-model="form.abs" autocomplete="off" placeholder="例：《元图书馆的发展史》是一部惊天地泣鬼神的著作。"></el-input>
         </el-form-item>
         <el-form-item label="分类" :label-width="formLabelWidth" prop="cid">
           <el-select v-model="form.category.id" placeholder="请选择分类">
@@ -44,8 +45,12 @@
 </template>
 
 <script>
+import ImgUpload from '@/components/library/ImgUpload'
 export default {
   name: 'EditForm',
+  components: {
+    ImgUpload
+  },
   data() {
     return {
       dialogFormVisible: false,
@@ -68,6 +73,7 @@ export default {
   },
   methods: {
     clear() {
+      this.$refs.imgUpload.clear()
       this.form = {
         id: '',
         title: '',
@@ -84,7 +90,7 @@ export default {
     },
     onSubmit() {
       this.$axios
-        .post('/admin/content/books', {
+        .post('/books', {
           id: this.form.id,
           cover: this.form.cover,
           title: this.form.title,
@@ -94,12 +100,15 @@ export default {
           abs: this.form.abs,
           category: this.form.category
         }).then(resp => {
-          if (resp && resp.data.code === 200) {
+          if (resp && resp.status === 200) {
             this.dialogFormVisible = false
             this.$emit('onSubmit')
           }
         })
     },
+    uploadImg() {
+      this.form.cover = this.$refs.imgUpload.url
+    }
   }
 }
 </script>
