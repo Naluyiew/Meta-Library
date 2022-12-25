@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row style="height: 840px;">
+    <el-row style="height: 900px;">
       <!-- 搜索框 -->
       <SearchBar @onSearch="searchResult" ref="searchBar" />
       <!-- 显示所有图书 -->
@@ -10,8 +10,8 @@
         <p slot="content" style="font-size: 14px;margin-bottom: 6px;">{{ item.title }}</p>
         <p slot="content" style="font-size: 13px;margin-bottom: 6px">
           <span>{{ item.author }}</span> /
-          <span>{{ item.date }}</span> /
-          <span>{{ item.press }}</span>
+          <span>{{ item.press }}</span> /
+          <span>{{ item.date }}</span>
         </p>
         <p slot="content" style="width: 300px" class="abstract">{{ item.abs }}</p>
         <!-- 图书简要 -->

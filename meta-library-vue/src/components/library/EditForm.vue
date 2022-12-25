@@ -1,7 +1,7 @@
 <template>
   <div style="text-align: left">
     <el-button type="primary" style="margin:20px 0" @click="dialogFormVisible = true">添加图书</el-button>
-    <el-dialog title="添加/修改图书" :visible.sync="dialogFormVisible" @close="clear">
+    <el-dialog title="添加/修改图书" :visible.sync="dialogFormVisible" @close="clear" :close-on-click-modal="false">
       <el-form v-model="form" style="text-align: left" ref="dataForm">
         <el-form-item label="书名" :label-width="formLabelWidth" prop="title">
           <el-input v-model="form.title" autocomplete="off" placeholder="例：元图书馆的发展史"></el-input>
