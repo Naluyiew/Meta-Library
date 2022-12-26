@@ -1,7 +1,7 @@
 <template>
-  <body id="poster">
+  <body id="poster" :style="{ backgroundImage: 'url(' + url + ')' }">
     <el-form class="login-container" label-position="left" label-width="0px">
-      <h3 class="login_title">Meta Library</h3>
+      <h3 class="login-title">Meta Library</h3>
       <el-form-item>
         <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号"></el-input>
       </el-form-item>
@@ -9,7 +9,8 @@
         <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码"></el-input>
       </el-form-item>
       <el-form-item style="width: 100%">
-        <el-button type="primary" style="width: 100%;background: #1e2b36;border: none" @click="login">登录</el-button>
+        <el-button type="primary" style="width: 100%;background: #3377aa;border: none" @click="login">登录</el-button>
+        未有账号：<router-link replace to="register">立即注册</router-link>
       </el-form-item>
     </el-form>
   </body>
@@ -24,6 +25,7 @@ export default {
         username: '',
         password: '',
       },
+      url: require('../assets/login.jpg'),
     }
   },
   methods: {
@@ -40,7 +42,7 @@ export default {
         }
       }).catch(err => { })
     }
-  }
+  },
 }
 </script>
 
@@ -56,14 +58,13 @@ export default {
   box-shadow: 0 0 25px #cac6c6;
 }
 
-.login_title {
+.login-title {
   margin: 0px auto 40px auto;
   text-align: center;
-  color: #1e2b36;
+  color: #3377aa;
 }
 
 #poster {
-  background: url("../assets/login.jpg") no-repeat;
   background-position: center;
   height: 100%;
   width: 100%;
@@ -74,5 +75,15 @@ export default {
 body {
   margin: 0;
   padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:link,
+a:visited,
+a:focus {
+  color: #3377aa;
 }
 </style>
