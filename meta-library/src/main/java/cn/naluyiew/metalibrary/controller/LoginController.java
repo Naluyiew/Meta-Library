@@ -63,4 +63,13 @@ public class LoginController {
 
         return ResultFactory.buildSuccessResult(user);
     }
+
+    @GetMapping("api/logout")
+    @ResponseBody
+    public Result logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        String message = "成功登出";
+        return ResultFactory.buildSuccessResult(message);
+    }
 }

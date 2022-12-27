@@ -1,6 +1,6 @@
 <template>
   <div style="text-align: left">
-    <el-button type="primary" style="margin:20px 0" @click="dialogFormVisible = true">添加图书</el-button>
+    <el-button type="primary" @click="dialogFormVisible = true">添加图书</el-button>
     <el-dialog title="添加/修改图书" :visible.sync="dialogFormVisible" @close="clear" :close-on-click-modal="false">
       <el-form v-model="form" style="text-align: left" ref="dataForm">
         <el-form-item label="书名" :label-width="formLabelWidth" prop="title">
@@ -20,7 +20,8 @@
           <ImgUpload @onUpload="uploadImg" ref="imgUpload" />
         </el-form-item>
         <el-form-item label="简介" :label-width="formLabelWidth" prop="abs">
-          <el-input type="textarea" v-model="form.abs" autocomplete="off" placeholder="例：《元图书馆的发展史》是一部惊天地泣鬼神的著作。"></el-input>
+          <el-input type="textarea" v-model="form.abs" autocomplete="off"
+            placeholder="例：《元图书馆的发展史》是一部惊天地泣鬼神的著作。"></el-input>
         </el-form-item>
         <el-form-item label="分类" :label-width="formLabelWidth" prop="cid">
           <el-select v-model="form.category.id" placeholder="请选择分类">

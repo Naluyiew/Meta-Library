@@ -4,6 +4,7 @@
       {{ item.navItem }}
     </el-menu-item>
     <span id="title">Meta Library - No end for learning</span>
+    <el-button type="primary" round @click="logout" style="position: absolute;right: 5%;top: 10px;">退出登录</el-button>
   </el-menu>
 </template>
 
@@ -17,6 +18,17 @@ export default {
         { name: '/admin', navItem: '管理中心' }
       ]
     }
+  },
+  methods: {
+    logout() {
+      this.$axios.get('/logout').then(resp => {
+        if (resp.data.code === 200) {
+          // 前后端状态保持一致
+          this.$store.commit('logout')
+          this.$router.replace('/login')
+        }
+      })
+    }
   }
 }
 </script>
@@ -25,7 +37,7 @@ export default {
 #title {
   position: absolute;
   padding-top: 20px;
-  right: 40%;
+  right: 35%;
   font-size: 20px;
   font-weight: bold;
 }
