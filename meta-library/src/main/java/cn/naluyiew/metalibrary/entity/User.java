@@ -1,22 +1,35 @@
 package cn.naluyiew.metalibrary.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "user")
+@ToString
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
-
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    int id;
+    private int id;
+    private String username;
+    private String password;
+    private String salt;
+    private String name;
+    private String phone;
+    private String email;
+    private boolean enabled;
 
-    String username;
-    String password;
-    String salt;
+    @Transient
+    private List<AdminRole> roles;
 
     public int getId() {
         return id;
@@ -48,5 +61,45 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<AdminRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<AdminRole> roles) {
+        this.roles = roles;
     }
 }
