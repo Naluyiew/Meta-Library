@@ -23,7 +23,8 @@ public class AdminRole {
     @Column(name = "name_zh")
     private String nameZh;
     private boolean enabled;
-
+    @Transient
+    private List<AdminPermission> perms;
     @Transient
     private List<AdminMenu> menus;
 
@@ -57,6 +58,14 @@ public class AdminRole {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public List<AdminPermission> getPerms() {
+        return perms;
+    }
+
+    public void setPerms(List<AdminPermission> perms) {
+        this.perms = perms;
     }
 
     public List<AdminMenu> getMenus() {

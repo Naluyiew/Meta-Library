@@ -18,13 +18,20 @@ public class AdminRoleService {
     @Autowired
     AdminUserRoleService adminUserRoleService;
     @Autowired
+    AdminPermissionService adminPermissionService;
+    @Autowired
+    AdminRolePermissionService adminRolePermissionService;
+    @Autowired
     AdminMenuService adminMenuService;
 
     public List<AdminRole> listWithPermsAndMenus() {
         List<AdminRole> roles = adminRoleDAO.findAll();
+        List<AdminPermission> perms;
         List<AdminMenu> menus;
         for (AdminRole role : roles) {
+            perms = adminPermissionService.listPermsByRoleId(role.getId());
             menus = adminMenuService.getMenusByRoleId(role.getId());
+            role.setPerms(perms);
             role.setMenus(menus);
         }
         return roles;
@@ -54,5 +61,6 @@ public class AdminRoleService {
 
     public void editRole(@RequestBody AdminRole role) {
         adminRoleDAO.save(role);
+        adminRolePermissionService.savePermChanges(role.getId(), role.getPerms());
     }
 }
