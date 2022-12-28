@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
+import Library from '@/components/library/Library'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
-import Library from '@/components/library/Library'
+import NotFound from '@/components/pages/NotFound'
 
 Vue.use(Router)
 
@@ -42,6 +43,10 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '*',
+      component: NotFound
     }
   ]
 })
