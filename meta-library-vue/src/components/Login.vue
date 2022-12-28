@@ -1,11 +1,12 @@
 <template>
-  <body id="poster" :style="{ backgroundImage: 'url(' + url + ')' }">
-    <el-form class="login-container" label-position="left" label-width="0px">
+  <div id="poster" :style="{ backgroundImage: 'url(' + url + ')' }">
+    <el-form :model="loginForm" :rules="rules" class="login-container" label-position="left" label-width="0px"
+      v-loading="loading">
       <h3 class="login-title">Meta Library</h3>
-      <el-form-item>
+      <el-form-item prop="username">
         <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号"></el-input>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="password">
         <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码"></el-input>
       </el-form-item>
       <el-form-item style="width: 100%">
@@ -13,7 +14,7 @@
         未有账号：<router-link replace to="register">立即注册</router-link>
       </el-form-item>
     </el-form>
-  </body>
+  </div>
 </template>
 
 <script>
@@ -21,10 +22,15 @@ export default {
   name: 'Login',
   data() {
     return {
+      rules: {
+        username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
+        password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
+      },
       loginForm: {
         username: '',
-        password: '',
+        password: ''
       },
+      loading: false,
       url: require('../assets/login.jpg'),
     }
   },
@@ -35,10 +41,15 @@ export default {
         password: this.loginForm.password,
       }).then(resp => {
         if (resp.data.code === 200) {
-          this.$store.commit('login', this.loginForm)
+          let data = resp.data.result
+          this.$store.commit('login', data)
           // 获取登录前页面的路径并跳转，如果该路径不存在，则跳转到首页
           let path = this.$route.query.redirect
           this.$router.replace({ path: path === '/' || path === undefined ? '/index' : path })
+        } else {
+          this.$alert(resp.data.message, '提示', {
+            confirmButtonText: '确定'
+          })
         }
       }).catch(err => { })
     }
@@ -47,6 +58,14 @@ export default {
 </script>
 
 <style>
+#poster {
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  position: fixed;
+}
+
 .login-container {
   border-radius: 15px;
   background-clip: padding-box;
@@ -62,19 +81,6 @@ export default {
   margin: 0px auto 40px auto;
   text-align: center;
   color: #3377aa;
-}
-
-#poster {
-  background-position: center;
-  height: 100%;
-  width: 100%;
-  background-size: cover;
-  position: fixed;
-}
-
-body {
-  margin: 0;
-  padding: 0;
 }
 
 a {

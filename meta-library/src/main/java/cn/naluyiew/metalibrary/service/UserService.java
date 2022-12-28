@@ -35,19 +35,10 @@ public class UserService {
 
     public int register(User user) {
         String username = user.getUsername();
-        String name = user.getName();
-        String phone = user.getPhone();
-        String email = user.getEmail();
         String password = user.getPassword();
 
         username = HtmlUtils.htmlEscape(username);
         user.setUsername(username);
-        name = HtmlUtils.htmlEscape(name);
-        user.setName(name);
-        phone = HtmlUtils.htmlEscape(phone);
-        user.setPhone(phone);
-        email = HtmlUtils.htmlEscape(email);
-        user.setEmail(email);
         user.setEnabled(true);
 
         if (username.equals("") || password.equals("")) {
@@ -91,9 +82,6 @@ public class UserService {
 
     public void editUser(User user) {
         User userInDB = userDAO.findByUsername(user.getUsername());
-        userInDB.setName(user.getName());
-        userInDB.setPhone(user.getPhone());
-        userInDB.setEmail(user.getEmail());
         userDAO.save(userInDB);
         adminUserRoleService.saveRoleChanges(userInDB.getId(), user.getRoles());
     }
