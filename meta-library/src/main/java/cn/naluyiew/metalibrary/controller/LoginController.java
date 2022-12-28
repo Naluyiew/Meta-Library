@@ -25,7 +25,6 @@ public class LoginController {
         username = HtmlUtils.htmlEscape(username);
 
         Subject subject = SecurityUtils.getSubject();
-//        subject.getSession().setTimeout(10000);
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, requestUser.getPassword());
         usernamePasswordToken.setRememberMe(true);
         try {
@@ -47,10 +46,8 @@ public class LoginController {
         int status = userService.register(user);
         switch (status) {
             case 0:
-                return ResultFactory.buildFailResult("用户名和密码不能为空");
-            case 1:
                 return ResultFactory.buildSuccessResult("注册成功");
-            case 2:
+            case 1:
                 return ResultFactory.buildFailResult("用户已存在");
         }
         return ResultFactory.buildFailResult("未知错误");

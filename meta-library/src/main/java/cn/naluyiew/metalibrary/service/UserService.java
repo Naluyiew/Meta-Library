@@ -41,14 +41,10 @@ public class UserService {
         user.setUsername(username);
         user.setEnabled(true);
 
-        if (username.equals("") || password.equals("")) {
-            return 0;
-        }
-
         boolean exist = isExist(username);
 
         if (exist) {
-            return 2;
+            return 1;
         }
 
         // 默认生成 16 位盐
@@ -61,7 +57,7 @@ public class UserService {
 
         userDAO.save(user);
 
-        return 1;
+        return 0;
     }
 
     public void updateUserStatus(User user) {
