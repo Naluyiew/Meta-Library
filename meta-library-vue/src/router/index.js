@@ -15,7 +15,7 @@ export default new Router({
     },
     {
       path: '/index',
-      name: 'Home',
+      name: 'Index',
       component: () => import('../components/Home'),
       redirect: '/library',
       children: [
@@ -23,9 +23,6 @@ export default new Router({
           path: '/library',
           name: 'Library',
           component: () => import('../components/library/Library'),
-          meta: {
-            requireAuth: true
-          },
         },
       ]
     },
@@ -40,8 +37,26 @@ export default new Router({
       component: () => import('../components/Register'),
     },
     {
+      path: '/admin',
+      name: 'Admin',
+      component: () => import('../components/admin/AdminIndex'),
+      redirect: '/admin/home',
+      children: [
+        {
+          path: 'home',
+          name: 'AdminHome',
+          component: () => import('../components/admin/home/AdminHome'),
+          meta: {
+            requireAuth: true
+          },
+        },
+      ]
+    },
+    {
       path: '*',
       component: () => import('../components/pages/NotFound')
     }
   ]
 })
+
+
