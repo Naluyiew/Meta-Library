@@ -12,9 +12,9 @@ import java.util.List;
 @Service
 public class BookService {
     @Autowired
-    BookDAO bookDAO;
+    private BookDAO bookDAO;
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     public List<Book> list() {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");

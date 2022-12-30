@@ -1,36 +1,55 @@
 package cn.naluyiew.metalibrary.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+@Data
 @Entity
 @Table(name = "book")
+@ToString
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    int id;
-
+    private int id;
+    private String title;
+    private String author;
+    private String date;
+    private String press;
+    private String abs;
+    private String cover;
     @ManyToOne
-    // 把 category 对象的 id 属性作为 cid 进行查询
     @JoinColumn(name = "cid")
     private Category category;
 
-    String cover;
-    String title;
-    String author;
-    String date;
-    String press;
-    String abs;
-
-    public Category getCategory() {
-        return category;
+    public int getId() {
+        return id;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getDate() {
@@ -57,14 +76,6 @@ public class Book {
         this.abs = abs;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getCover() {
         return cover;
     }
@@ -73,19 +84,11 @@ public class Book {
         this.cover = cover;
     }
 
-    public String getTitle() {
-        return title;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

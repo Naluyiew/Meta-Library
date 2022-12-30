@@ -1,15 +1,17 @@
 package cn.naluyiew.metalibrary.controller;
 
 import cn.naluyiew.metalibrary.entity.Book;
+import cn.naluyiew.metalibrary.result.Result;
+import cn.naluyiew.metalibrary.result.ResultFactory;
 import cn.naluyiew.metalibrary.service.BookService;
 import cn.naluyiew.metalibrary.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 public class LibraryController {
@@ -17,43 +19,42 @@ public class LibraryController {
     BookService bookService;
 
     @GetMapping("/api/books")
-    public List<Book> list() throws Exception {
-        return bookService.list();
+    public Result listBooks() {
+        return ResultFactory.buildSuccessResult(bookService.list());
     }
 
-    @PostMapping("/api/books")
-    public Book addOrUpdate(@RequestBody Book book) throws Exception {
+    @PostMapping("/api/admin/content/books")
+    public Result addOrUpdateBooks(@RequestBody @Valid Book book) {
         bookService.addOrUpdate(book);
-        return book;
+        return ResultFactory.buildSuccessResult("修改成功");
     }
 
-    @PostMapping("/api/delete")
-    public void delete(@RequestBody Book book) throws Exception {
+    @PostMapping("/api/admin/content/books/delete")
+    public Result deleteBook(@RequestBody @Valid Book book) {
         bookService.deleteById(book.getId());
-    }
-
-    @GetMapping("/api/categories/{cid}/books")
-    public List<Book> listByCategory(@PathVariable("cid") int cid) throws Exception {
-        if (0 != cid) {
-            return bookService.listByCategory(cid);
-        } else {
-            return list();
-        }
+        return ResultFactory.buildSuccessResult("删除成功");
     }
 
     @GetMapping("/api/search")
-    public List<Book> searchResult(@RequestParam("keywords") String keywords) {
-        // 关键词为空时查询出所有书籍
+    public Result searchResult(@RequestParam("keywords") String keywords) {
         if ("".equals(keywords)) {
-            return bookService.list();
+            return ResultFactory.buildSuccessResult(bookService.list());
         } else {
-            return bookService.Search(keywords);
+            return ResultFactory.buildSuccessResult(bookService.Search(keywords));
         }
     }
 
-    @PostMapping("api/covers")
-    // 对接收到的文件重命名，但保留原始的格式
-    public String coversUpload(MultipartFile file) throws Exception {
+    @GetMapping("/api/categories/{cid}/books")
+    public Result listByCategory(@PathVariable("cid") int cid) {
+        if (0 != cid) {
+            return ResultFactory.buildSuccessResult(bookService.listByCategory(cid));
+        } else {
+            return ResultFactory.buildSuccessResult(bookService.list());
+        }
+    }
+
+    @PostMapping("/api/admin/content/books/covers")
+    public String coversUpload(MultipartFile file) {
         String folder = "D:/workspace/img";
         File imageFolder = new File(folder);
         File f = new File(imageFolder, StringUtils.getRandomString(6) + file.getOriginalFilename()
@@ -69,4 +70,5 @@ public class LibraryController {
             return "";
         }
     }
+
 }

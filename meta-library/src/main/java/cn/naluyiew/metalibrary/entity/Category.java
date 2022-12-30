@@ -1,20 +1,22 @@
 package cn.naluyiew.metalibrary.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import lombok.ToString;
+
+@Data
 @Entity
 @Table(name = "category")
+@ToString
 @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
-
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    int id;
-
-    String name;
+    private int id;
+    private String name;
 
     public int getId() {
         return id;
