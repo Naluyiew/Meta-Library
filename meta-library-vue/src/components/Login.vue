@@ -1,7 +1,7 @@
 <template>
   <div id="poster" :style="{ backgroundImage: 'url(' + url + ')' }">
-    <el-form :model="loginForm" :rules="rules" class="login-container" label-position="left" label-width="0px"
-      v-loading="loading">
+    <el-form ref="loginForm" :model="loginForm" :rules="rules" class="login-container" label-position="left"
+      label-width="0px" v-loading="loading">
       <h3 class="login-title">Meta Library</h3>
       <el-form-item prop="username">
         <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号"></el-input>
@@ -36,22 +36,29 @@ export default {
   },
   methods: {
     login() {
-      this.$axios.post('/login', {
-        username: this.loginForm.username,
-        password: this.loginForm.password,
-      }).then(resp => {
-        if (resp.data.code === 200) {
-          let data = resp.data.result
-          this.$store.commit('login', data)
-          // 获取登录前页面的路径并跳转，如果该路径不存在，则跳转到首页
-          let path = this.$route.query.redirect
-          this.$router.replace({ path: path === '/' || path === undefined ? '/index' : path })
+      this.$refs.loginForm.validate((valid) => {
+        // 通过验证，发送请求
+        if (valid) {
+          this.$axios.post('/login', {
+            username: this.loginForm.username,
+            password: this.loginForm.password,
+          }).then(resp => {
+            if (resp.data.code === 200) {
+              let data = resp.data.result
+              this.$store.commit('login', data)
+              // 获取登录前页面的路径并跳转，如果该路径不存在，则跳转到首页
+              let path = this.$route.query.redirect
+              this.$router.replace({ path: path === undefined ? '/admin/home' : path })
+            } else {
+              this.$alert(resp.data.message, '提示', {
+                confirmButtonText: '确定'
+              })
+            }
+          }).catch(err => { })
         } else {
-          this.$alert(resp.data.message, '提示', {
-            confirmButtonText: '确定'
-          })
+          return false;
         }
-      }).catch(err => { })
+      });
     }
   },
 }

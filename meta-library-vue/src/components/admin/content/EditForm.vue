@@ -1,6 +1,6 @@
 <template>
   <div style="text-align: left">
-    <el-button type="primary" @click="dialogFormVisible = true">添加图书</el-button>
+    <el-button class="add-button" type="primary" @click="dialogFormVisible = true">添加图书</el-button>
     <el-dialog title="添加/修改图书" :visible.sync="dialogFormVisible" @close="clear" :close-on-click-modal="false">
       <el-form v-model="form" style="text-align: left" ref="dataForm">
         <el-form-item label="书名" :label-width="formLabelWidth" prop="title">
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import ImgUpload from '@/components/library/ImgUpload'
+import ImgUpload from '@/components/admin/content/ImgUpload'
 export default {
   name: 'EditForm',
   components: {
@@ -91,7 +91,7 @@ export default {
     },
     onSubmit() {
       this.$axios
-        .post('/books', {
+        .post('/admin/content/books', {
           id: this.form.id,
           cover: this.form.cover,
           title: this.form.title,
@@ -115,5 +115,7 @@ export default {
 </script>
 
 <style scoped>
-
+.add-button {
+  margin: 0px 18px;
+}
 </style>

@@ -24,7 +24,8 @@ export default {
       let url = 'categories/' + cid + '/books'
       this.$axios.get(url).then(resp => {
         if (resp && resp.status === 200) {
-          this.$refs.booksArea.books = resp.data
+          this.$refs.booksArea.books = resp.data.result
+          this.$refs.booksArea.currentPage = 1
         }
       })
     }

@@ -1,7 +1,7 @@
 <template>
   <div id="poster" :style="{ backgroundImage: 'url(' + url + ')' }">
-    <el-form :model="registerForm" :rules="rules" class="register-container" label-position="left" label-width="0px"
-      v-loading="loading">
+    <el-form ref="registerForm" :model="registerForm" :rules="rules" class="register-container" label-position="left"
+      label-width="0px" v-loading="loading">
       <h3 class="register-title">Meta Library</h3>
       <el-form-item prop="username">
         <el-input type="text" v-model="registerForm.username" auto-complete="off" placeholder="账号"></el-input>
@@ -26,7 +26,6 @@ export default {
         username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
         password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
       },
-      checked: true,
       registerForm: {
         username: '',
         password: ''
@@ -37,22 +36,29 @@ export default {
   },
   methods: {
     register() {
-      this.$axios.post('/register', {
-        username: this.registerForm.username,
-        password: this.registerForm.password
-      }).then(resp => {
-        if (resp.data.code === 200) {
-          this.$alert('注册成功', '提示', {
-            confirmButtonText: '确定'
+      this.$refs.registerForm.validate((valid) => {
+        // 通过验证，发送请求
+        if (valid) {
+          this.$axios.post('/register', {
+            username: this.registerForm.username,
+            password: this.registerForm.password,
+          }).then(resp => {
+            if (resp.data.code === 200) {
+              this.$alert('注册成功', '提示', {
+                confirmButtonText: '确定'
+              })
+              this.$router.replace('/login')
+            } else {
+              this.$alert(resp.data.message, '提示', {
+                confirmButtonText: '确定'
+              })
+            }
           })
-          this.$router.replace('/login')
+            .catch(err => { })
         } else {
-          this.$alert(resp.data.message, '提示', {
-            confirmButtonText: '确定'
-          })
+          return false;
         }
-      })
-        .catch(err => { })
+      });
     }
   },
 }

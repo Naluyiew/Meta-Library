@@ -1,5 +1,5 @@
 <template>
-  <el-menu default-active="0" @select="handleSelect" class="categories">
+  <el-menu class="categories" default-active="0" @select="handleSelect">
     <el-menu-item index="0">
       <i class="el-icon-menu"></i>
       <span slot="title">全部</span>
@@ -51,7 +51,7 @@ export default {
 <style scoped>
 .categories {
   position: fixed;
-  margin-left: 4%;
+  margin-left: 5%;
   top: 100px;
   width: 150px;
 }

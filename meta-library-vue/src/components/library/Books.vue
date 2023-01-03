@@ -18,23 +18,17 @@
         <el-card style="width: 135px;margin-bottom: 20px;height: 250px;float: left;margin-right: 15px" class="book"
           bodyStyle="padding:10px" shadow="hover">
           <!-- 封面 -->
-          <div class="cover" @click="editBook(item)">
+          <div class="cover">
             <img :src="item.cover" alt="封面">
           </div>
-          <div class="info">
-            <!-- 书名 -->
-            <div class="title">
-              <a href="">{{ item.title }}</a>
-            </div>
-            <!-- 删除按钮 -->
-            <i class="el-icon-delete" @click="deleteBook(item.id)"></i>
+          <!-- 书名 -->
+          <div class="title">
+            <a href="">{{ item.title }}</a>
           </div>
           <!-- 作者 -->
           <div class="author">{{ item.author }}</div>
         </el-card>
       </el-tooltip>
-      <!-- 添加/修改图书的弹出表单 -->
-      <EditForm @onSubmit="loadBooks()" ref="edit" />
     </el-row>
     <el-row>
       <!-- 分页 -->
@@ -47,18 +41,16 @@
 
 <script>
 import SearchBar from '@/components/library/SearchBar'
-import EditForm from '@/components/library/EditForm'
 export default {
   name: 'Books',
   components: {
     SearchBar,
-    EditForm
   },
   data() {
     return {
       books: [],
       currentPage: 1,
-      pagesize: 17
+      pagesize: 18
     }
   },
   mounted: function () {
@@ -68,60 +60,23 @@ export default {
     // 加载图书
     loadBooks() {
       this.$axios.get('/books').then(resp => {
-        if (resp && resp.status === 200) {
-          this.books = resp.data
+        if (resp && resp.data.code === 200) {
+          this.books = resp.data.result
         }
       })
     },
-    handleCurrentChange(currentPage) {
+    handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },
     searchResult() {
-      this.$axios.get('/search?keywords=' + this.$refs.searchBar.keywords, {
-      }).then(resp => {
-        if (resp && resp.status === 200) {
-          this.books = resp.data
-        }
-      })
-    },
-    deleteBook(id) {
-      this.$confirm('将永久删除该书籍，是否继续？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$axios.post('/delete', {
-          id: id
+      this.$axios
+        .get('/search?keywords=' + this.$refs.searchBar.keywords, {
         }).then(resp => {
-          if (resp && resp.status === 200) {
-            this.loadBooks()
+          if (resp && resp.data.code === 200) {
+            this.books = resp.data.result
           }
         })
-      }
-      ).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消删除'
-        })
-      })
     },
-    // 弹出修改表单并渲染数据
-    editBook(item) {
-      this.$refs.edit.dialogFormVisible = true
-      this.$refs.edit.form = {
-        id: item.id,
-        cover: item.cover,
-        title: item.title,
-        author: item.author,
-        date: item.date,
-        press: item.press,
-        abs: item.abs,
-        category: {
-          id: item.category.id.toString(),
-          name: item.category.name
-        }
-      }
-    }
   }
 }
 </script>
@@ -138,7 +93,6 @@ export default {
 img {
   width: 115px;
   height: 172px;
-  /*margin: 0 auto;*/
 }
 
 .title {
@@ -162,6 +116,13 @@ img {
 .el-icon-delete {
   cursor: pointer;
   float: right;
+}
+
+.switch {
+  display: flex;
+  position: absolute;
+  left: 780px;
+  top: 25px;
 }
 
 a {

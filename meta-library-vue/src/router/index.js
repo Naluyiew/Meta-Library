@@ -3,45 +3,58 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-export default new Router({
+// 创建实例
+const createRouter = () => new Router({
   // 使用 History 模式
   mode: 'history',
+  // 默认路由
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: () => import('../components/Home'),
+      component: () => import('@/components/Home'),
       redirect: '/library',
     },
     {
       path: '/index',
-      name: 'Home',
-      component: () => import('../components/Home'),
+      component: () => import('@/components/Home'),
       redirect: '/library',
       children: [
         {
           path: '/library',
-          name: 'Library',
-          component: () => import('../components/library/Library'),
-          meta: {
-            requireAuth: true
-          },
+          component: () => import('@/components/library/Library'),
         },
       ]
     },
     {
       path: '/login',
-      name: 'Login',
-      component: () => import('../components/Login'),
+      component: () => import('@/components/Login'),
     },
     {
       path: '/register',
-      name: 'Register',
-      component: () => import('../components/Register'),
+      component: () => import('@/components/Register'),
     },
     {
-      path: '*',
-      component: () => import('../components/pages/NotFound')
+      path: '/admin',
+      component: () => import('@/components/admin/AdminIndex'),
+      redirect: '/admin/home',
+      children: [
+        {
+          path: 'home',
+          component: () => import('@/components/admin/home/AdminHome'),
+          meta: {
+            requireAuth: true
+          },
+        },
+      ]
     }
   ]
 })
+const router = createRouter()
+
+// 清空路由，防止路由重复加载
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher
+}
+
+export default router
