@@ -43,4 +43,3 @@ public class AdminRoleMenu {
         this.mid = mid;
     }
 }
-

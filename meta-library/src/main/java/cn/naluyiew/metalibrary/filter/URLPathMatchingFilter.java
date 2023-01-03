@@ -40,7 +40,7 @@ public class URLPathMatchingFilter extends PathMatchingFilter {
         Subject subject = SecurityUtils.getSubject();
 
         if (!subject.isAuthenticated()) {
-            System.out.println("未登录用户尝试访问需要登录的接口");
+            // 未登录用户尝试访问需要登录的接口
             return false;
         }
 
@@ -62,10 +62,10 @@ public class URLPathMatchingFilter extends PathMatchingFilter {
             }
 
             if (hasPermission) {
-                System.out.println("用户：" + username + "访问了：" + requestAPI + "接口");
+                // 用户访问了接口
                 return true;
             } else {
-                System.out.println("用户：" + username + "访问了没有权限的接口：" + requestAPI);
+                // 用户访问了没有权限的接口
                 return false;
             }
         }

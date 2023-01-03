@@ -30,4 +30,3 @@ public class DefaultExceptionHandler {
         return ResultFactory.buildFailResult(message);
     }
 }
-

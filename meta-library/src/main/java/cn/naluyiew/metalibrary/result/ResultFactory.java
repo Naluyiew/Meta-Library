@@ -1,6 +1,7 @@
 package cn.naluyiew.metalibrary.result;
 
 public class ResultFactory {
+
     public static Result buildSuccessResult(Object data) {
         return buildResult(ResultCode.SUCCESS, "成功", data);
     }

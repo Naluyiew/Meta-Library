@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Result {
-    //响应码
+    // 响应码
     private int code;
     private String message;
     private Object result;

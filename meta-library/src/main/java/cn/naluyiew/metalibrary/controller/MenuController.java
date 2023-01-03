@@ -21,4 +21,3 @@ public class MenuController {
         return ResultFactory.buildSuccessResult(adminMenuService.getMenusByRoleId(1));
     }
 }
-

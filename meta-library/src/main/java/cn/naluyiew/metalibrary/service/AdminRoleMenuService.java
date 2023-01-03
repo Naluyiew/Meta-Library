@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 @Service
 public class AdminRoleMenuService {
     @Autowired
@@ -44,4 +43,3 @@ public class AdminRoleMenuService {
         adminRoleMenuDAO.saveAll(rms);
     }
 }
-

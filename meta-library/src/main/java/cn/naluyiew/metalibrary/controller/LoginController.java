@@ -46,8 +46,10 @@ public class LoginController {
         int status = userService.register(user);
         switch (status) {
             case 0:
-                return ResultFactory.buildSuccessResult("注册成功");
+                return ResultFactory.buildFailResult("用户名和密码不能为空");
             case 1:
+                return ResultFactory.buildSuccessResult("注册成功");
+            case 2:
                 return ResultFactory.buildFailResult("用户已存在");
         }
         return ResultFactory.buildFailResult("未知错误");

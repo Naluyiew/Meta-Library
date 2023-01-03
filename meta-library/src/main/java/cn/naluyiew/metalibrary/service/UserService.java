@@ -1,6 +1,7 @@
 package cn.naluyiew.metalibrary.service;
 
 import cn.naluyiew.metalibrary.dao.UserDAO;
+import cn.naluyiew.metalibrary.dto.UserDTO;
 import cn.naluyiew.metalibrary.entity.AdminRole;
 import cn.naluyiew.metalibrary.entity.User;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -19,6 +21,19 @@ public class UserService {
     AdminRoleService adminRoleService;
     @Autowired
     AdminUserRoleService adminUserRoleService;
+
+    public List<UserDTO> list() {
+        List<User> users = userDAO.findAll();
+        List<UserDTO> userDTOS = users
+                .stream().map(user -> (UserDTO) new UserDTO().convertFrom(user)).collect(Collectors.toList());
+
+        userDTOS.forEach(u -> {
+            List<AdminRole> roles = adminRoleService.listRolesByUser(u.getUsername());
+            u.setRoles(roles);
+        });
+
+        return userDTOS;
+    }
 
     public boolean isExist(String username) {
         User user = userDAO.findByUsername(username);
@@ -41,10 +56,14 @@ public class UserService {
         user.setUsername(username);
         user.setEnabled(true);
 
+        if (username.equals("") || password.equals("")) {
+            return 0;
+        }
+
         boolean exist = isExist(username);
 
         if (exist) {
-            return 1;
+            return 2;
         }
 
         // 默认生成 16 位盐
@@ -57,7 +76,7 @@ public class UserService {
 
         userDAO.save(user);
 
-        return 0;
+        return 1;
     }
 
     public void updateUserStatus(User user) {
