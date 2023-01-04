@@ -90,7 +90,7 @@ public class UserService {
         String salt = new SecureRandomNumberGenerator().nextBytes().toString();
         int times = 2;
         userInDB.setSalt(salt);
-        String encodedPassword = new SimpleHash("md5", "123", salt, times).toString();
+        String encodedPassword = new SimpleHash("md5", "zd2xh4cl6", salt, times).toString();
         userInDB.setPassword(encodedPassword);
         return userDAO.save(userInDB);
     }
