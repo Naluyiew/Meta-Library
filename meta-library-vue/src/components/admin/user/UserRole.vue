@@ -185,17 +185,16 @@ export default {
         perms: perms
       }).then(resp => {
         if (resp && resp.data.code === 200) {
-          this.$alert(resp.data.result)
+          this.$message({
+            type: 'success',
+            message: '角色信息修改成功'
+          })
           this.dialogFormVisible = false
           this.listRoles()
         }
       })
       this.$axios.put('/admin/role/menu?rid=' + role.id, {
         menusIds: this.$refs.tree.getCheckedKeys()
-      }).then(resp => {
-        if (resp && resp.data.code === 200) {
-          console.log(resp.data.result)
-        }
       })
     }
   }

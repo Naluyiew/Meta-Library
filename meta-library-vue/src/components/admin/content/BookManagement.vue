@@ -101,10 +101,7 @@ export default {
         date: item.date,
         press: item.press,
         abs: item.abs,
-        category: {
-          id: item.category.id.toString(),
-          name: item.category.name
-        }
+        cid: item.category.id.toString()
       }
     },
     loadBooks() {

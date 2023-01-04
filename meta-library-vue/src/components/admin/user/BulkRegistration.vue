@@ -33,12 +33,17 @@ export default {
       }
     }
   },
+  watch: {
+    dialogFormVisible(newVal) {
+      // 关闭弹出框时，newVal为false，清除校验信息
+      if (!newVal) {
+        this.$refs.userForm.clearValidate()
+      }
+    }
+  },
   methods: {
     clear() {
-      this.userForm = {
-        username: '',
-        password: ''
-      }
+      this.$refs.userForm.resetFields()
     },
     register() {
       this.$refs.userForm.validate((valid) => {
@@ -51,15 +56,17 @@ export default {
             })
             .then(resp => {
               if (resp.data.code === 200) {
-                this.$alert('注册成功', '提示', {
-                  confirmButtonText: '确定'
+                this.$message({
+                  type: 'success',
+                  message: '用户添加成功'
                 })
                 this.clear()
                 this.$emit('onSubmit')
                 this.dialogFormVisible = false
               } else {
-                this.$alert(resp.data.message, '提示', {
-                  confirmButtonText: '确定'
+                this.$message({
+                  type: 'error',
+                  message: resp.data.message
                 })
               }
             })

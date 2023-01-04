@@ -38,12 +38,17 @@ export default {
       loading: false
     }
   },
+  watch: {
+    dialogFormVisible(newVal) {
+      // 关闭弹出框时，newVal为false，清除校验信息
+      if (!newVal) {
+        this.$refs.roleForm.clearValidate()
+      }
+    }
+  },
   methods: {
     clear() {
-      this.roleForm = {
-        name: '',
-        nameZh: ''
-      }
+      this.$refs.roleForm.resetFields()
     },
     createRole() {
       this.$refs.roleForm.validate((valid) => {
@@ -54,18 +59,13 @@ export default {
               name: this.roleForm.name,
               nameZh: this.roleForm.nameZh
             })
-            .then(resp => {
-              if (resp.data.code === 200) {
-                this.$alert(resp.data.result, '提示', {
-                  confirmButtonText: '确定'
-                })
-                this.clear()
-                this.$emit('onSubmit')
-              } else {
-                this.$alert(resp.data.message, '提示', {
-                  confirmButtonText: '确定'
-                })
-              }
+            .then(() => {
+              this.$message({
+                type: 'success',
+                message: '角色添加成功'
+              })
+              this.clear()
+              this.$emit('onSubmit')
             })
             .catch(failResponse => { })
           this.dialogFormVisible = false

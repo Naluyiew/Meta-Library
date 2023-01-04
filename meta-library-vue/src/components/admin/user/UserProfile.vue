@@ -128,7 +128,10 @@ export default {
         roles: roles
       }).then(resp => {
         if (resp && resp.data.code === 200) {
-          this.$alert('用户信息修改成功')
+          this.$message({
+            type: 'success',
+            message: '用户信息修改成功'
+          })
           this.dialogFormVisible = false
           // 修改角色后重新请求用户信息，实现视图更新
           this.listUsers()
@@ -151,7 +154,7 @@ export default {
         username: username
       }).then(resp => {
         if (resp && resp.data.code === 200) {
-          this.$alert('密码已重置为1az2sx3dc')
+          this.$alert('密码已重置为zd2xh4cl6')
         }
       })
     }
