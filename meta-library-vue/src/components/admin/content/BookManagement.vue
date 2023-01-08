@@ -10,8 +10,9 @@
     <!-- 添加/修改图书的弹出表单 -->
     <EditForm @onSubmit="loadBooks()" ref="edit" />
     <!-- 展示图书信息 -->
-    <el-card style="margin:18px;width: 95%">
-      <el-table :data="books" style="width: 100%" :max-height="tableHeight">
+    <el-card style="margin:18px;width: 95%" v-loading="loading" element-loading-text="加载中"
+      element-loading-spinner="el-icon-loading">
+      <el-table :data="books" style="width: 100%" stripe :height="tableHeight">
         <el-table-column type="index" width="50">
         </el-table-column>
         <el-table-column type="expand">
@@ -43,6 +44,9 @@
             </el-button>
           </template>
         </el-table-column>
+        <template v-slot:empty>
+          <h1>{{ tip }}</h1>
+        </template>
       </el-table>
     </el-card>
   </div>
@@ -55,60 +59,54 @@ export default {
   components: { EditForm },
   data() {
     return {
-      books: []
+      books: [],
+      loading: true,
+      tableHeight: window.innerHeight - 320,
+      tip: ''
     }
   },
   mounted() {
     this.loadBooks()
   },
-  computed: {
-    tableHeight() {
-      return window.innerHeight - 320
-    }
-  },
   methods: {
+    editBook(item) {
+      this.$refs.edit.dialogFormVisible = true
+      const { id, title, author, press, date, cover, abs, category } = item
+      this.$refs.edit.form = {
+        id,
+        title,
+        author,
+        press,
+        date,
+        cover,
+        abs,
+        cid: String(category.id)
+      }
+    },
+    loadBooks() {
+      this.$req.get('/books').then(result => {
+        this.books = result
+        this.loading = false
+      })
+    },
     deleteBook(id) {
       this.$confirm('将永久删除该书籍, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$axios
-          .post('/admin/content/books/delete', { id: id }).then(resp => {
-            if (resp && resp.data.code === 200) {
-              this.loadBooks()
-              this.$message({
-                type: 'success',
-                message: '成功删除'
-              })
-            }
-          })
-      }
-      ).catch(() => {
+        return this.$req.post('/admin/content/books/delete', { id })
+      }).then(() => {
+        this.loadBooks()
+        this.$message({
+          type: 'success',
+          message: '成功删除'
+        })
+      }).catch(() => {
         this.$message({
           type: 'info',
           message: '取消删除'
         })
-      })
-    },
-    editBook(item) {
-      this.$refs.edit.dialogFormVisible = true
-      this.$refs.edit.form = {
-        id: item.id,
-        cover: item.cover,
-        title: item.title,
-        author: item.author,
-        date: item.date,
-        press: item.press,
-        abs: item.abs,
-        cid: item.category.id.toString()
-      }
-    },
-    loadBooks() {
-      this.$axios.get('/books').then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.books = resp.data.result
-        }
       })
     }
   }

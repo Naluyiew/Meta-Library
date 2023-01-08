@@ -2,8 +2,7 @@
   <div style="text-align: left">
     <el-button class="add-button" type="primary" @click="dialogFormVisible = true">添加角色</el-button>
     <el-dialog title="添加角色" :visible.sync="dialogFormVisible" @close="clear" width="25%">
-      <el-form ref="roleForm" :model="roleForm" :rules="rules" label-position="left" label-width="0px"
-        v-loading="loading">
+      <el-form ref="roleForm" :model="roleForm" :rules="rules" label-position="left" label-width="0px">
         <el-form-item prop="name">
           <el-input type="text" v-model="roleForm.name" auto-complete="off" placeholder="角色名"></el-input>
         </el-form-item>
@@ -35,12 +34,10 @@ export default {
         name: '',
         nameZh: ''
       },
-      loading: false
     }
   },
   watch: {
     dialogFormVisible(newVal) {
-      // 关闭弹出框时，newVal为false，清除校验信息
       if (!newVal) {
         this.$refs.roleForm.clearValidate()
       }
@@ -52,27 +49,18 @@ export default {
     },
     createRole() {
       this.$refs.roleForm.validate((valid) => {
-        // 通过验证，发送请求
-        if (valid) {
-          this.$axios
-            .post('/admin/role', {
-              name: this.roleForm.name,
-              nameZh: this.roleForm.nameZh
+        if (!valid) return
+        this.$req.post('/admin/role', { ...this.roleForm })
+          .then(_, () => {
+            this.$emit('onSubmit')
+            this.clear()
+            this.dialogFormVisible = false
+            this.$message({
+              type: 'success',
+              message: '角色添加成功'
             })
-            .then(() => {
-              this.$message({
-                type: 'success',
-                message: '角色添加成功'
-              })
-              this.clear()
-              this.$emit('onSubmit')
-            })
-            .catch(failResponse => { })
-          this.dialogFormVisible = false
-        } else {
-          return false;
-        }
-      });
+          })
+      })
     }
   }
 }

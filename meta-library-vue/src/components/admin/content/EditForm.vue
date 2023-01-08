@@ -58,7 +58,7 @@ export default {
       rules: {
         title: [{ required: true, message: '书名不能为空', trigger: 'blur' }],
         author: [{ required: true, message: '作者不能为空', trigger: 'blur' }],
-        cid: [{ required: true, message: '请选择分类', trigger: 'blur' }]
+        cid: [{ required: true, message: '请选择分类', trigger: 'change' }]
       },
       form: {
         id: '',
@@ -75,7 +75,6 @@ export default {
   },
   watch: {
     dialogFormVisible(newVal) {
-      // 关闭弹出框时，newVal为false，清除校验信息
       if (!newVal) {
         this.$refs.dataForm.clearValidate()
       }
@@ -88,29 +87,22 @@ export default {
     },
     onSubmit() {
       this.$refs.dataForm.validate((valid) => {
-        // 通过验证，发送请求
-        if (valid) {
-          this.$axios
-            .post('/admin/content/books', {
-              id: this.form.id,
-              cover: this.form.cover,
-              title: this.form.title,
-              author: this.form.author,
-              date: this.form.date,
-              press: this.form.press,
-              abs: this.form.abs,
-              category: { id: this.form.cid }
-            }).then(resp => {
-              if (resp && resp.status === 200) {
-                this.dialogFormVisible = false
-                this.$emit('onSubmit')
-              }
-            })
-            .catch(failResponse => { })
-        } else {
-          return false;
-        }
-      });
+        if (!valid) return
+        const { id, title, author, press, date, cover, abs, cid } = this.form
+        this.$req.post('/admin/content/books', {
+          id,
+          title,
+          author,
+          press,
+          date,
+          cover,
+          abs,
+          category: { id: cid }
+        }).then(() => {
+          this.dialogFormVisible = false
+          this.$emit('onSubmit')
+        })
+      })
     },
     uploadImg() {
       this.form.cover = this.$refs.imgUpload.url

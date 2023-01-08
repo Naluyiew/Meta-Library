@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-aside style="width: 200px;margin-top: 20px">
-      <SideMenu @indexSelect="listByCategory" ref="sideMenu" />
+      <SideMenu @indexSelect="loadBooksByCategory" ref="sideMenu" />
     </el-aside>
     <el-main>
       <Books class="books-area" ref="booksArea" />
@@ -19,15 +19,13 @@ export default {
     Books,
   },
   methods: {
-    listByCategory() {
-      let cid = this.$refs.sideMenu.cid
-      let url = 'categories/' + cid + '/books'
-      this.$axios.get(url).then(resp => {
-        if (resp && resp.status === 200) {
-          this.$refs.booksArea.books = resp.data.result
+    loadBooksByCategory() {
+      const cid = this.$refs.sideMenu.cid
+      this.$req.get(`/categories/${cid}/books`)
+        .then(result => {
+          this.$refs.booksArea.books = result
           this.$refs.booksArea.currentPage = 1
-        }
-      })
+        })
     }
   }
 }

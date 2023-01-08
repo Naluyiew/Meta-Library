@@ -35,7 +35,6 @@ export default {
   },
   watch: {
     dialogFormVisible(newVal) {
-      // 关闭弹出框时，newVal为false，清除校验信息
       if (!newVal) {
         this.$refs.userForm.clearValidate()
       }
@@ -47,34 +46,23 @@ export default {
     },
     register() {
       this.$refs.userForm.validate((valid) => {
-        // 通过验证，发送请求
-        if (valid) {
-          this.$axios
-            .post('/register', {
-              username: this.userForm.username,
-              password: this.userForm.password,
+        if (!valid) return
+        this.$req.post('/register', { ...this.userForm })
+          .then(() => {
+            this.$emit('onSubmit')
+            this.clear()
+            this.dialogFormVisible = false
+            this.$message({
+              type: 'success',
+              message: '用户添加成功'
             })
-            .then(resp => {
-              if (resp.data.code === 200) {
-                this.$message({
-                  type: 'success',
-                  message: '用户添加成功'
-                })
-                this.clear()
-                this.$emit('onSubmit')
-                this.dialogFormVisible = false
-              } else {
-                this.$message({
-                  type: 'error',
-                  message: resp.data.message
-                })
-              }
+          }).catch(message => {
+            this.$message({
+              type: 'error',
+              message
             })
-            .catch(failResponse => { })
-        } else {
-          return false;
-        }
-      });
+          })
+      })
     }
   }
 }

@@ -25,12 +25,16 @@ export default {
   },
   computed: {
     greet() {
-      let hours = this.hours
-      return hours < 9 ? '早上好' :
-        hours < 12 ? '上午好' :
-          hours < 15 ? '中午好' :
-            hours < 19 ? '下午好' :
-              '晚上好'
+      const hours = this.hours
+      return hours < 9
+        ? '早上好'
+        : hours < 12
+          ? '上午好'
+          : hours < 15
+            ? '中午好'
+            : hours < 19
+              ? '下午好'
+              : '晚上好'
     }
   },
   methods: {
@@ -38,15 +42,13 @@ export default {
       this.$router.replace('/library')
     },
     logout() {
-      this.$axios.get('/logout').then(resp => {
-        if (resp && resp.data.code === 200) {
-          // 前后端状态保持一致
-          this.$store.commit('logout')
-          this.$router.replace('/library')
-          // 清空路由，防止路由重复加载
-          resetRouter()
-        }
-      }).catch(failResponse => { })
+      this.$req.get('/logout').then(() => {
+        // 清除登录信息
+        this.$store.commit('logout')
+        this.$router.replace('/library')
+        // 清空路由，防止路由重复加载
+        resetRouter()
+      })
     }
   }
 }

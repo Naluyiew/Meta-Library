@@ -2,7 +2,7 @@
   <div>
     <el-row style="height: 900px;">
       <!-- 搜索框 -->
-      <SearchBar @onSearch="searchResult" ref="searchBar" />
+      <SearchBar @onSearch="onSearch" ref="searchBar" />
       <!-- 显示所有图书 -->
       <el-tooltip effect="dark" placement="right"
         v-for="item in books.slice((currentPage - 1) * pagesize, currentPage * pagesize)" :key="item.id">
@@ -57,24 +57,18 @@ export default {
     this.loadBooks()
   },
   methods: {
-    // 加载图书
     loadBooks() {
-      this.$axios.get('/books').then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.books = resp.data.result
-        }
+      this.$req.get('/books').then(result => {
+        this.books = result
       })
     },
-    handleCurrentChange: function (currentPage) {
+    handleCurrentChange(currentPage) {
       this.currentPage = currentPage
     },
-    searchResult() {
-      this.$axios
-        .get('/search?keywords=' + this.$refs.searchBar.keywords, {
-        }).then(resp => {
-          if (resp && resp.data.code === 200) {
-            this.books = resp.data.result
-          }
+    onSearch() {
+      this.$req.get('/search', { keywords: this.$refs.searchBar.keywords })
+        .then(result => {
+          this.books = result
         })
     },
   }

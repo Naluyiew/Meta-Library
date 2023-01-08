@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    username: window.localStorage.getItem('username') == null ? '' : JSON.parse(window.localStorage.getItem('username' || '[]')),
+    username: JSON.parse(window.localStorage.getItem('username')) || '',
     adminMenus: []
   },
   mutations: {

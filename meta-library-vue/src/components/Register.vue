@@ -1,7 +1,7 @@
 <template>
   <div id="poster" :style="{ backgroundImage: 'url(' + url + ')' }">
     <el-form ref="registerForm" :model="registerForm" :rules="rules" class="register-container" label-position="left"
-      label-width="0px" v-loading="loading">
+      label-width="0px">
       <h3 class="register-title">Meta Library</h3>
       <el-form-item prop="username">
         <el-input type="text" v-model="registerForm.username" auto-complete="off" placeholder="账号"></el-input>
@@ -30,37 +30,27 @@ export default {
         username: '',
         password: ''
       },
-      loading: false,
       url: require('../assets/register.jpg'),
     }
   },
   methods: {
     register() {
       this.$refs.registerForm.validate((valid) => {
-        // 通过验证，发送请求
-        if (valid) {
-          this.$axios.post('/register', {
-            username: this.registerForm.username,
-            password: this.registerForm.password,
-          }).then(resp => {
-            if (resp.data.code === 200) {
-              this.$alert('注册成功', '提示', {
-                confirmButtonText: '确定'
-              })
-              this.$router.replace('/login')
-            } else {
-              this.$alert(resp.data.message, '提示', {
-                confirmButtonText: '确定'
-              })
-            }
+        if (!valid) return
+        this.$req.post('/register', { ...this.registerForm })
+          .then(() => {
+            this.$alert('注册成功', '提示', {
+              confirmButtonText: '确定'
+            })
+            this.$router.replace('/login')
+          }).catch(message => {
+            this.$alert(message, '提示', {
+              confirmButtonText: '确定'
+            })
           })
-            .catch(err => { })
-        } else {
-          return false;
-        }
-      });
+      })
     }
-  },
+  }
 }
 </script>
 

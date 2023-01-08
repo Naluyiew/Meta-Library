@@ -33,11 +33,11 @@
       </el-breadcrumb>
     </el-row>
     <!-- 添加角色的弹出表单 -->
-    <RoleCreate @onSubmit="listRoles()" />
+    <RoleCreate @onSubmit="loadRoles()" />
     <!-- 展示角色信息 -->
     <el-card style="margin:18px;width: 95%">
-      <el-table :data="roles" stripe style="width: 100%" :max-height="tableHeight">
-        <el-table-column type="index" width="50">
+      <el-table :data="roles" stripe style="width: 100%" :height="tableHeight">
+        <el-table-column type="index" width="80">
         </el-table-column>
         <el-table-column prop="name" label="角色名" fit>
         </el-table-column>
@@ -46,7 +46,7 @@
         <el-table-column label="状态" width="100">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.enabled" active-color="#13ce66" inactive-color="#ff4949"
-              @change="(value) => commitStatusChange(value, scope.row)">
+              @change="(value) => changeStatus(value, scope.row)">
             </el-switch>
           </template>
         </el-table-column>
@@ -57,6 +57,9 @@
             </el-button>
           </template>
         </el-table-column>
+        <template v-slot:empty>
+          <h1>{{ tip }}</h1>
+        </template>
       </el-table>
     </el-card>
   </div>
@@ -80,66 +83,40 @@ export default {
         id: 'id',
         label: 'nameZh',
         children: 'children'
-      }
+      },
+      tableHeight: window.innerHeight - 320,
+      tip: ''
     }
   },
   mounted() {
-    this.listRoles()
-    this.listPerms()
-    this.listMenus()
-  },
-  computed: {
-    tableHeight() {
-      return window.innerHeight - 320
-    }
+    this.loadRoles()
+    this.loadPerms()
+    this.loadMenus()
   },
   methods: {
-    listRoles() {
-      this.$axios.get('/admin/role').then(resp => {
-        if (resp && resp.status === 200) {
-          this.roles = resp.data.result
-        }
+    loadRoles() {
+      this.$req.get('/admin/role').then(result => {
+        this.roles = result
       })
     },
-    listPerms() {
-      this.$axios.get('/admin/role/perm').then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.perms = resp.data.result
-        }
+    loadPerms() {
+      this.$req.get('/admin/role/perm').then(result => {
+        this.perms = result
       })
     },
-    listMenus() {
-      this.$axios.get('/admin/role/menu').then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.menus = resp.data.result
-        }
+    loadMenus() {
+      this.$req.get('/admin/role/menu').then(result => {
+        this.menus = result
       })
     },
-    commitStatusChange(value, role) {
-      if (role.id !== 1) {
-        this.$confirm('是否修改角色状态？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+    changeStatus(value, role) {
+      const { id, name, nameZh } = role
+      if (name !== 'sysAdmin') {
+        this.$req.put('/admin/role/status', {
+          enabled: value,
+          id
         }).then(() => {
-          this.$axios.put('/admin/role/status', {
-            enabled: value,
-            id: role.id
-          }).then(resp => {
-            if (resp && resp.data.code === 200) {
-              if (value) {
-                this.$message('角色 [' + role.nameZh + '] 已启用')
-              } else {
-                this.$message('角色 [' + role.nameZh + '] 已禁用')
-              }
-            }
-          })
-        }).catch(() => {
-          role.enabled = !role.enabled
-          this.$message({
-            type: 'info',
-            message: '取消修改'
-          })
+          this.$message(`角色 ${nameZh} 已 ${value ? '启用' : '禁用'}`)
         })
       } else {
         role.enabled = true
@@ -149,51 +126,35 @@ export default {
     editRole(role) {
       this.dialogFormVisible = true
       this.selectedRole = role
-      let permIds = []
-      for (let i = 0; i < role.perms.length; i++) {
-        permIds.push(role.perms[i].id)
-      }
-      this.selectedPermsIds = permIds
-      let menuIds = []
-      for (let i = 0; i < role.menus.length; i++) {
-        menuIds.push(role.menus[i].id)
-        for (let j = 0; j < role.menus[i].children.length; j++) {
-          menuIds.push(role.menus[i].children[j].id)
-        }
-      }
-      this.selectedMenusIds = menuIds
-      // 判断树是否已经加载，第一次打开对话框前树不存在会报错，所以需要设置 default-checked
-      if (this.$refs.tree) {
-        this.$refs.tree.setCheckedKeys(menuIds)
-      }
+      const { perms, menus } = role
+      this.selectedPermsIds = perms.map(({ id }) => id)
+      this.selectedMenusIds = menus.reduce((acc, { id, children }) => {
+        acc.push(id)
+        acc.push(...children.map(({ id }) => id))
+        return acc
+      }, [])
     },
     onSubmit(role) {
-      // 根据视图绑定的角色 id 向后端传送角色信息
-      let perms = []
-      for (let i = 0; i < this.selectedPermsIds.length; i++) {
-        for (let j = 0; j < this.perms.length; j++) {
-          if (this.selectedPermsIds[i] === this.perms[j].id) {
-            perms.push(this.perms[j])
-          }
-        }
-      }
-      this.$axios.put('/admin/role', {
-        id: role.id,
-        name: role.name,
-        nameZh: role.nameZh,
-        enabled: role.enabled,
-        perms: perms
-      }).then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.$message({
-            type: 'success',
-            message: '角色信息修改成功'
-          })
-          this.dialogFormVisible = false
-          this.listRoles()
-        }
+      const { id, name, nameZh, enabled } = role
+      const perms = []
+      this.selectedPermsIds.forEach(item => {
+        perms.push(...this.perms.filter(({ id }) => item === id))
       })
-      this.$axios.put('/admin/role/menu?rid=' + role.id, {
+      this.$req.put('/admin/role', {
+        id,
+        name,
+        nameZh,
+        enabled,
+        perms
+      }).then(() => {
+        this.dialogFormVisible = false
+        this.$message({
+          type: 'success',
+          message: '角色信息修改成功'
+        })
+        this.loadRoles()
+      })
+      this.$req.put(`/admin/role/menu?rid=${id}`, {
         menusIds: this.$refs.tree.getCheckedKeys()
       })
     }
