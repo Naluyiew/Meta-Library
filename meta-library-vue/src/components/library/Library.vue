@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-aside style="width: 200px;margin-top: 20px">
+    <el-aside style="width:180px;">
       <SideMenu @indexSelect="loadBooksByCategory" ref="sideMenu" />
     </el-aside>
     <el-main>
@@ -33,7 +33,7 @@ export default {
 
 <style scoped>
 .books-area {
-  width: 990px;
+  max-width: 950px;
   margin-left: auto;
   margin-right: auto;
 }

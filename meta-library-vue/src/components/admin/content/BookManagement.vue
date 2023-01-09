@@ -1,18 +1,11 @@
 <template>
-  <div>
-    <el-row style="margin: 18px">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item>管理中心</el-breadcrumb-item>
-        <el-breadcrumb-item>内容管理</el-breadcrumb-item>
-        <el-breadcrumb-item>图书管理</el-breadcrumb-item>
-      </el-breadcrumb>
-    </el-row>
-    <!-- 添加/修改图书的弹出表单 -->
+  <div style="padding:10px;">
+    <!-- 添加/修改图书 -->
     <EditForm @onSubmit="loadBooks()" ref="edit" />
     <!-- 展示图书信息 -->
-    <el-card style="margin:18px;width: 95%" v-loading="loading" element-loading-text="加载中"
-      element-loading-spinner="el-icon-loading">
-      <el-table :data="books" style="width: 100%" stripe :height="tableHeight">
+    <el-card v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading"
+      style="width: 95%; margin-top:20px;">
+      <el-table :data="books" stripe :height="tableHeight">
         <el-table-column type="index" width="50">
         </el-table-column>
         <el-table-column type="expand">
@@ -61,7 +54,7 @@ export default {
     return {
       books: [],
       loading: true,
-      tableHeight: window.innerHeight - 320,
+      tableHeight: window.innerHeight - 280,
       tip: ''
     }
   },

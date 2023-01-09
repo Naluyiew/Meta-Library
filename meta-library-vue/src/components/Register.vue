@@ -1,18 +1,19 @@
 <template>
-  <div id="poster" :style="{ backgroundImage: 'url(' + url + ')' }">
-    <el-form ref="registerForm" :model="registerForm" :rules="rules" class="register-container" label-position="left"
-      label-width="0px">
-      <h3 class="register-title">Meta Library</h3>
+  <div class="container" :style="{ backgroundImage: `url(${url})` }">
+    <el-form class="register-container" ref="registerForm" :model="registerForm" :rules="rules">
+      <h3 style="color: #1e2b36;padding-bottom: 15px;">Meta Library</h3>
       <el-form-item prop="username">
         <el-input type="text" v-model="registerForm.username" auto-complete="off" placeholder="账号"></el-input>
       </el-form-item>
       <el-form-item prop="password">
         <el-input type="password" v-model="registerForm.password" auto-complete="off" placeholder="密码"></el-input>
       </el-form-item>
-      <el-form-item style="width: 100%">
-        <el-button type="primary" style="width: 100%;background: #1e2b36;border: none" @click="register">注册</el-button>
-        已有账号：<router-link replace to="login">直接登录</router-link>
+      <el-form-item>
+        <el-button class="register-button" type="primary" @click="register">注册</el-button>
       </el-form-item>
+      <div style="font-size:14px;">
+        已有账号：<router-link replace to="login">直接登录</router-link>
+      </div>
     </el-form>
   </div>
 </template>
@@ -30,7 +31,7 @@ export default {
         username: '',
         password: ''
       },
-      url: require('../assets/register.jpg'),
+      url: require('@/assets/register.jpg'),
     }
   },
   methods: {
@@ -54,32 +55,32 @@ export default {
 }
 </script>
 
-<style>
-#poster {
-  background-position: center;
+<style scoped>
+.container {
   height: 100%;
   width: 100%;
+  position: absolute;
   background-size: cover;
-  position: fixed;
+  background-position: center;
 }
 
 .register-container {
-  border-radius: 15px;
-  background-clip: padding-box;
-  margin: 90px auto;
   width: 350px;
-  padding: 35px 35px 15px 35px;
+  margin: 90px auto;
+  padding: 15px 35px 35px;
+  border-radius: 20px;
   background: #fff;
   border: 1px solid #eaeaea;
-  box-shadow: 0 0 25px #cac6c6;
+  box-shadow: 0 0 20px #cac6c6;
 }
 
-.register-title {
-  margin: 0px auto 40px auto;
-  text-align: center;
-  color: #1e2b36;
+.register-button {
+  width: 100%;
+  background: #1e2b36;
+  border: none;
 }
 
+/* router-link标签 */
 a {
   text-decoration: none;
 }

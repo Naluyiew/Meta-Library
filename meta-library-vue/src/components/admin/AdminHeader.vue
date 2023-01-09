@@ -1,16 +1,14 @@
 <template>
-  <div>
-    <el-card class="admin-header">
-      <span id="title">Meta Library - No end for learning</span>
-    </el-card>
-    <el-menu class="el-menu-demo" default-active="1-1" mode="horizontal" active-text-color="#3377aa">
-      <el-submenu index="1">
+  <el-card class="admin-header" :body-style="{ padding: '5px 20px 5px' }">
+    <el-menu default-active="1-1" mode="horizontal" active-text-color="#3377aa" style="border:none;">
+      <el-submenu index="1" style="float:right;padding-top: 10px;">
         <template slot="title">{{ greet }}，{{ username }}</template>
         <el-menu-item index="1-1" @click="logout">退出登录</el-menu-item>
         <el-menu-item index="1-2" @click="backToLibrary">回到图书馆</el-menu-item>
       </el-submenu>
+      <h2 style="color: #1e2b36;">Meta Library - No end for learning</h2>
     </el-menu>
-  </div>
+  </el-card>
 </template>
 
 <script>
@@ -56,24 +54,8 @@ export default {
 
 <style scoped>
 .admin-header {
-  height: 80px;
+  height: 100%;
   opacity: 0.85;
-  line-height: 20px;
-  min-width: 900px;
-}
-
-#title {
-  position: absolute;
-  padding-top: 20px;
-  left: 40%;
-  font-size: 25px;
-  font-weight: bold;
-  color: #1e2b36;
-}
-
-.el-menu-demo {
-  position: absolute;
-  top: 25%;
-  right: 5%;
+  box-sizing: border-box;
 }
 </style>

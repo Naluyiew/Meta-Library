@@ -1,18 +1,19 @@
 <template>
-  <div id="poster" :style="{ backgroundImage: 'url(' + url + ')' }">
-    <el-form ref="loginForm" :model="loginForm" :rules="rules" class="login-container" label-position="left"
-      label-width="0px">
-      <h3 class="login-title">Meta Library</h3>
+  <div class="container" :style="{ backgroundImage: `url(${url})` }">
+    <el-form class="login-container" ref="loginForm" :model="loginForm" :rules="rules">
+      <h3 style="color: #3377aa;padding-bottom: 15px;">Meta Library</h3>
       <el-form-item prop="username">
         <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号"></el-input>
       </el-form-item>
       <el-form-item prop="password">
         <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码"></el-input>
       </el-form-item>
-      <el-form-item style="width: 100%">
-        <el-button type="primary" style="width: 100%;background: #3377aa;border: none" @click="login">登录</el-button>
-        未有账号：<router-link replace to="register">立即注册</router-link>
+      <el-form-item>
+        <el-button class="login-button" type="primary" @click="login">登录</el-button>
       </el-form-item>
+      <div style="font-size:14px;">
+        未有账号：<router-link replace to="register">立即注册</router-link>
+      </div>
     </el-form>
   </div>
 </template>
@@ -30,7 +31,7 @@ export default {
         username: '',
         password: ''
       },
-      url: require('../assets/login.jpg'),
+      url: require('@/assets/login.jpg'),
     }
   },
   methods: {
@@ -52,32 +53,32 @@ export default {
 }
 </script>
 
-<style>
-#poster {
-  background-position: center;
+<style scoped>
+.container {
   height: 100%;
   width: 100%;
+  position: absolute;
   background-size: cover;
-  position: fixed;
+  background-position: center;
 }
 
 .login-container {
-  border-radius: 15px;
-  background-clip: padding-box;
-  margin: 90px auto;
   width: 350px;
-  padding: 35px 35px 15px 35px;
+  margin: 90px auto;
+  padding: 15px 35px 35px;
+  border-radius: 20px;
   background: #fff;
   border: 1px solid #eaeaea;
-  box-shadow: 0 0 25px #cac6c6;
+  box-shadow: 0 0 20px #cac6c6;
 }
 
-.login-title {
-  margin: 0px auto 40px auto;
-  text-align: center;
-  color: #3377aa;
+.login-button {
+  width: 100%;
+  background: #3377aa;
+  border: none;
 }
 
+/* router-link标签 */
 a {
   text-decoration: none;
 }

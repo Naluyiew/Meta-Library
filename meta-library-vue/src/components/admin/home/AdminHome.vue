@@ -1,5 +1,5 @@
 <template>
-  <div id="poster">
+  <div class="container">
   </div>
 </template>
 
@@ -10,12 +10,9 @@ export default {
 </script>
 
 <style scoped>
-#poster {
-  background: url("../../../assets/home.png") no-repeat;
-  background-position: 10% 38%;
-  height: 80%;
-  width: 80%;
-  background-size: cover;
-  position: fixed;
+.container {
+  background-image: url("../../../assets/home.png");
+  height: 100%;
+  width: 100%;
 }
 </style>

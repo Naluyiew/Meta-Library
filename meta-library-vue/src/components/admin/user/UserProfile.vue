@@ -1,43 +1,15 @@
 <template>
-  <div>
-    <!-- 修改用户的弹出表单 -->
-    <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible">
-      <el-form v-model="selectedUser" style="text-align: left" ref="dataForm">
-        <el-form-item label="用户名" label-width="120px" prop="username">
-          <label>{{ selectedUser.username }}</label>
-        </el-form-item>
-        <el-form-item label="密码" label-width="120px" prop="password">
-          <el-button type="warning" @click="resetPassword(selectedUser.username)">重置密码</el-button>
-        </el-form-item>
-        <el-form-item label="角色分配" label-width="120px" prop="roles">
-          <el-checkbox-group v-model="selectedRolesIds">
-            <el-checkbox v-for="(role, i) in roles" :key="i" :label="role.id">{{ role.nameZh }}</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="onSubmit(selectedUser)">确 定</el-button>
-      </div>
-    </el-dialog>
-    <el-row style="margin: 18px">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item>管理中心</el-breadcrumb-item>
-        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>用户信息</el-breadcrumb-item>
-      </el-breadcrumb>
-    </el-row>
+  <div style="padding:10px;">
     <!-- 添加用户 -->
     <BulkRegistration @onSubmit="loadUsers()" />
     <!-- 展示用户信息 -->
-    <el-card style="margin:18px;width: 95%">
-      <el-table :data="users" stripe :default-sort="{ prop: 'id', order: 'ascending' }" style="width: 100%"
-        :height="tableHeight">
+    <el-card style="width: 95%; margin-top:20px;">
+      <el-table :data="users" stripe :height="tableHeight">
         <el-table-column type="index" width="80">
         </el-table-column>
         <el-table-column prop="username" label="用户名" fit>
         </el-table-column>
-        <el-table-column label="状态" sortable width="100">
+        <el-table-column label="状态" width="100">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.enabled" active-color="#13ce66" inactive-color="#ff4949"
               @change="(value) => changeStatus(value, scope.row)">
@@ -56,6 +28,26 @@
         </template>
       </el-table>
     </el-card>
+    <!-- 修改用户信息 -->
+    <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible">
+      <el-form v-model="selectedUser" style="text-align: left" ref="dataForm">
+        <el-form-item label="用户名" label-width="100px" prop="username">
+          <label>{{ selectedUser.username }}</label>
+        </el-form-item>
+        <el-form-item label="密码" label-width="100px" prop="password">
+          <el-button type="warning" @click="resetPassword(selectedUser.username)">重置密码</el-button>
+        </el-form-item>
+        <el-form-item label="角色分配" label-width="100px" prop="roles">
+          <el-checkbox-group v-model="selectedRolesIds">
+            <el-checkbox v-for="(role, i) in roles" :key="i" :label="role.id">{{ role.nameZh }}</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="onSubmit(selectedUser)">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -71,7 +63,7 @@ export default {
       roles: [],
       selectedUser: [],
       selectedRolesIds: [],
-      tableHeight: window.innerHeight - 320,
+      tableHeight: window.innerHeight - 280,
       tip: ''
     }
   },

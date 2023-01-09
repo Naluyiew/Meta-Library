@@ -1,9 +1,8 @@
 <template>
-  <el-menu :default-active="currentPath" class="el-menu-admin" router mode="vertical" background-color="#1e2b36"
-    text-color="#fff" active-text-color="#ffd04b" :collapse="isCollapse">
-    <div style="height: 80px;"></div>
-    <el-submenu v-for="(item, i) in adminMenus" :key="i" :index="(i).toString()" style="text-align: left">
-      <span slot="title" style="font-size: 17px;">
+  <el-menu class="menu-admin" :default-active="currentPath" router mode="vertical" background-color="#1e2b36"
+    text-color="#fff" active-text-color="#ffd04b">
+    <el-submenu v-for="(item, i) in adminMenus" :key="item.path" :index="String(i)" style="text-align:left;">
+      <span slot="title" style="font-size:16px;">
         <i :class="item.iconCls"></i>
         {{ item.nameZh }}
       </span>
@@ -18,11 +17,6 @@
 <script>
 export default {
   name: 'AdminMenu',
-  data() {
-    return {
-      isCollapse: false
-    }
-  },
   computed: {
     adminMenus() {
       return this.$store.state.adminMenus
@@ -35,8 +29,9 @@ export default {
 </script>
 
 <style scoped>
-.el-menu-admin {
-  border-radius: 5px;
+.menu-admin {
   height: 100%;
+  border-bottom-right-radius: 5px;
+  overflow: hidden;
 }
 </style>

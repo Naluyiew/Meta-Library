@@ -1,41 +1,37 @@
 <template>
   <div>
-    <el-row style="height: 900px;">
-      <!-- 搜索框 -->
-      <SearchBar @onSearch="onSearch" ref="searchBar" />
-      <!-- 显示所有图书 -->
-      <el-tooltip effect="dark" placement="right"
-        v-for="item in books.slice((currentPage - 1) * pagesize, currentPage * pagesize)" :key="item.id">
+    <!-- 搜索框 -->
+    <SearchBar @onSearch="onSearch" ref="searchBar" style="margin-bottom: 20px;" />
+    <div class="book-list">
+      <!-- 显示图书信息 -->
+      <el-tooltip placement="right" v-for="item in books.slice((currentPage - 1) * pagesize, currentPage * pagesize)"
+        :key="item.id">
         <!-- 图书详情 -->
-        <p slot="content" style="font-size: 14px;margin-bottom: 6px;">{{ item.title }}</p>
-        <p slot="content" style="font-size: 13px;margin-bottom: 6px">
+        <p slot="content" style="font-size: 14px;">{{ item.title }}</p>
+        <p slot="content" style="font-size: 13px;">
           <span>{{ item.author }}</span> /
           <span>{{ item.press }}</span> /
           <span>{{ item.date }}</span>
         </p>
-        <p slot="content" style="width: 300px" class="abstract">{{ item.abs }}</p>
-        <!-- 图书简要 -->
-        <el-card style="width: 135px;margin-bottom: 20px;height: 250px;float: left;margin-right: 15px" class="book"
-          bodyStyle="padding:10px" shadow="hover">
-          <!-- 封面 -->
+        <p slot="content" class="abstract">{{ item.abs }}</p>
+        <!-- 图书简要信息 -->
+        <el-card class="book" :body-style="{ padding: '10px' }" shadow="hover">
           <div class="cover">
             <img :src="item.cover" alt="封面">
           </div>
-          <!-- 书名 -->
           <div class="title">
-            <a href="">{{ item.title }}</a>
+            {{ item.title }}
           </div>
-          <!-- 作者 -->
-          <div class="author">{{ item.author }}</div>
+          <div class="author">
+            {{ item.author }}
+          </div>
         </el-card>
       </el-tooltip>
-    </el-row>
-    <el-row>
-      <!-- 分页 -->
-      <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pagesize"
-        :total="books.length">
-      </el-pagination>
-    </el-row>
+    </div>
+    <!-- 分页 -->
+    <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pagesize"
+      :total="books.length" style="white-space:normal;">
+    </el-pagination>
   </div>
 </template>
 
@@ -76,56 +72,43 @@ export default {
 </script>
 
 <style scoped>
+.book-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.abstract {
+  width: 300px;
+  line-height: 18px;
+}
+
+.book {
+  width: 135px;
+  height: 250px;
+  margin: 10px;
+}
+
 .cover {
   width: 115px;
-  height: 172px;
-  margin-bottom: 7px;
-  overflow: hidden;
-  cursor: pointer;
+  height: 175px;
+  margin-bottom: 6px;
 }
 
 img {
   width: 115px;
-  height: 172px;
+  height: 175px;
 }
 
 .title {
   font-size: 14px;
+  color: #3377aa;
   text-align: left;
 }
 
 .author {
-  color: #333;
-  width: 102px;
   font-size: 13px;
-  margin-bottom: 6px;
+  color: #333;
   text-align: left;
-}
-
-.abstract {
-  display: block;
-  line-height: 17px;
-}
-
-.el-icon-delete {
-  cursor: pointer;
-  float: right;
-}
-
-.switch {
-  display: flex;
-  position: absolute;
-  left: 780px;
-  top: 25px;
-}
-
-a {
-  text-decoration: none;
-}
-
-a:link,
-a:visited,
-a:focus {
-  color: #3377aa;
 }
 </style>

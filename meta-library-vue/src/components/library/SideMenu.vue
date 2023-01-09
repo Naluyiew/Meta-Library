@@ -50,9 +50,9 @@ export default {
 
 <style scoped>
 .categories {
+  width: 180px;
+  margin-top: 85px;
   position: fixed;
-  margin-left: 5%;
-  top: 100px;
-  width: 150px;
+  border: none;
 }
 </style>

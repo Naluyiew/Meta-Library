@@ -3,7 +3,7 @@
     <el-menu-item v-for="(item, i) in navList" :key="i" :index="item.name">
       {{ item.navItem }}
     </el-menu-item>
-    <span id="title">Meta Library - No end for learning</span>
+    <h3 style="color: #3377aa;">Meta Library - No end for learning</h3>
   </el-menu>
 </template>
 
@@ -22,12 +22,5 @@ export default {
 </script>
 
 <style scoped>
-#title {
-  position: absolute;
-  padding-top: 20px;
-  right: 35%;
-  font-size: 20px;
-  font-weight: bold;
-  color: #3377aa;
-}
+
 </style>

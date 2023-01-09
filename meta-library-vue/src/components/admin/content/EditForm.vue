@@ -70,7 +70,7 @@ export default {
         abs: '',
         cid: ''
       },
-      formLabelWidth: '120px'
+      formLabelWidth: '100px'
     }
   },
   watch: {
@@ -112,7 +112,5 @@ export default {
 </script>
 
 <style scoped>
-.add-button {
-  margin: 0px 18px;
-}
+
 </style>

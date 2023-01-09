@@ -1,10 +1,10 @@
 <template>
-  <el-container id="admin-body">
-    <el-header style="z-index: 1;height: 80px;margin-left: -20px">
-      <AdminHeader style="position: absolute;width: 98%;" />
+  <el-container style="height: 96vh;">
+    <el-header style="height: 85px; margin-left:-20px;">
+      <AdminHeader />
     </el-header>
     <el-container>
-      <el-aside style="height: 112%;margin-top: -80px;width: 250px">
+      <el-aside style="width:32%;max-width: 250px;">
         <AdminMenu />
       </el-aside>
       <el-main>
@@ -25,7 +25,5 @@ export default {
 </script>
 
 <style scoped>
-#admin-body {
-  height: 95vh;
-}
+
 </style>

@@ -1,42 +1,10 @@
 <template>
-  <div>
-    <!-- 修改角色的弹出表单 -->
-    <el-dialog title="修改角色信息" :visible.sync="dialogFormVisible">
-      <el-form v-model="selectedRole" style="text-align: left" ref="dataForm">
-        <el-form-item label="角色名" label-width="120px" prop="username">
-          <el-input v-model="selectedRole.name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="角色描述" label-width="120px" prop="name">
-          <el-input v-model="selectedRole.nameZh" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="功能配置" label-width="120px" prop="perms">
-          <el-checkbox-group v-model="selectedPermsIds">
-            <el-checkbox v-for="(perm, i) in perms" :key="i" :label="perm.id">{{ perm.desc_ }}</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="菜单配置" label-width="120px" prop="menus">
-          <el-tree :data="menus" :props="props" show-checkbox :default-checked-keys="selectedMenusIds" node-key="id"
-            ref="tree">
-          </el-tree>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="onSubmit(selectedRole)">确 定</el-button>
-      </div>
-    </el-dialog>
-    <el-row style="margin: 18px">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item>管理中心</el-breadcrumb-item>
-        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>角色配置</el-breadcrumb-item>
-      </el-breadcrumb>
-    </el-row>
-    <!-- 添加角色的弹出表单 -->
+  <div style="padding:10px;">
+    <!-- 添加角色 -->
     <RoleCreate @onSubmit="loadRoles()" />
     <!-- 展示角色信息 -->
-    <el-card style="margin:18px;width: 95%">
-      <el-table :data="roles" stripe style="width: 100%" :height="tableHeight">
+    <el-card style="width: 95%; margin-top:20px;">
+      <el-table :data="roles" stripe :height="tableHeight">
         <el-table-column type="index" width="80">
         </el-table-column>
         <el-table-column prop="name" label="角色名" fit>
@@ -62,6 +30,31 @@
         </template>
       </el-table>
     </el-card>
+    <!-- 修改角色信息 -->
+    <el-dialog title="修改角色信息" :visible.sync="dialogFormVisible">
+      <el-form v-model="selectedRole" style="text-align: left" ref="dataForm">
+        <el-form-item label="角色名" label-width="100px" prop="username">
+          <el-input v-model="selectedRole.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="角色描述" label-width="100px" prop="name">
+          <el-input v-model="selectedRole.nameZh" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="功能配置" label-width="100px" prop="perms">
+          <el-checkbox-group v-model="selectedPermsIds">
+            <el-checkbox v-for="(perm, i) in perms" :key="i" :label="perm.id">{{ perm.desc_ }}</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="菜单配置" label-width="100px" prop="menus">
+          <el-tree :data="menus" :props="props" show-checkbox :default-checked-keys="selectedMenusIds" node-key="id"
+            ref="tree">
+          </el-tree>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="onSubmit(selectedRole)">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -84,7 +77,7 @@ export default {
         label: 'nameZh',
         children: 'children'
       },
-      tableHeight: window.innerHeight - 320,
+      tableHeight: window.innerHeight - 280,
       tip: ''
     }
   },
@@ -163,8 +156,5 @@ export default {
 </script>
 
 <style scoped>
-.add-button {
-  float: left;
-  margin: 18px 0 18px 10px;
-}
+
 </style>

@@ -1,16 +1,17 @@
 <template>
   <div style="text-align: left">
-    <el-button class="add-button" type="primary" @click="dialogFormVisible = true">添加用户</el-button>
-    <el-dialog title="添加用户" :visible.sync="dialogFormVisible" @close="clear" width="25%">
-      <el-form ref="userForm" :model="userForm" :rules="rules" label-position="left" label-width="0px">
+    <el-button type="primary" @click="dialogFormVisible = true">添加用户</el-button>
+    <el-dialog title="添加用户" :visible.sync="dialogFormVisible" @close="clear" width="25%" style="min-width:600px;">
+      <el-form ref="userForm" :model="userForm" :rules="rules" label-position="left">
         <el-form-item prop="username">
           <el-input type="text" v-model="userForm.username" auto-complete="off" placeholder="账号"></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input type="password" v-model="userForm.password" auto-complete="off" placeholder="密码"></el-input>
         </el-form-item>
-        <el-form-item style="width: 100%">
-          <el-button type="success" style="width: 40%;border: none" v-on:click="register">添加</el-button>
+        <el-form-item>
+          <el-button type="success" style="width: 80%;max-width:120px;border: none;"
+            v-on:click="register">添加</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -69,7 +70,5 @@ export default {
 </script>
 
 <style scoped>
-.add-button {
-  margin: 0px 18px;
-}
+
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <div style="margin-bottom: 30px;display: flex;justify-content: center;align-items: center">
+  <div style="display: flex;justify-content: center;align-items: center;">
     <el-input @keyup.enter.native="searchClick" placeholder="输入书名 / 作者" prefix-icon="el-icon-search" size="small"
-      style="width: 400px;margin-right: 10px" v-model="keywords">
+      v-model="keywords" style="width: 400px;margin-right: 10px">
     </el-input>
     <el-button size="small" type="primary" icon="el-icon-search" @click="searchClick">搜索</el-button>
   </div>
