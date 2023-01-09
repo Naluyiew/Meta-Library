@@ -13,7 +13,7 @@ CREATE TABLE `user` (
 -- -----------------
 -- Records of user
 -- -----------------
-INSERT INTO `user` VALUES (1,'admin','db6151e3738551e61e707f9dae2b788a','/qr3X0NicrCOk4OaiU7fqA==',1),(2,'editor','e5e755a0e5150798e3d04357747bc977','hMRP2iWdfWKkWgFWLNeo4w==',1),(3,'visitor','4857cf4b3c171169ecc914741434f90d','kSgyuIwfhwuwh7aQDna9Ew==',1);
+INSERT INTO `user` VALUES (1,'admin','db6151e3738551e61e707f9dae2b788a','/qr3X0NicrCOk4OaiU7fqA==',1),(2,'visitor','4857cf4b3c171169ecc914741434f90d','kSgyuIwfhwuwh7aQDna9Ew==',1),(3,'editor','e5e755a0e5150798e3d04357747bc977','hMRP2iWdfWKkWgFWLNeo4w==',1);
 
 
 -- ------------------------------
