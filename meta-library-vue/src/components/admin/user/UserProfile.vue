@@ -29,7 +29,7 @@
       </el-table>
     </el-card>
     <!-- 修改用户信息 -->
-    <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible">
+    <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible" style="min-width:600px;">
       <el-form v-model="selectedUser" style="text-align: left" ref="dataForm">
         <el-form-item label="用户名" label-width="100px" prop="username">
           <label>{{ selectedUser.username }}</label>

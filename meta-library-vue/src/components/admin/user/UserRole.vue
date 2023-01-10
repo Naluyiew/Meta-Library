@@ -31,7 +31,7 @@
       </el-table>
     </el-card>
     <!-- 修改角色信息 -->
-    <el-dialog title="修改角色信息" :visible.sync="dialogFormVisible">
+    <el-dialog title="修改角色信息" :visible.sync="dialogFormVisible" style="min-width:600px;">
       <el-form v-model="selectedRole" style="text-align: left" ref="dataForm">
         <el-form-item label="角色名" label-width="100px" prop="username">
           <el-input v-model="selectedRole.name" autocomplete="off"></el-input>
