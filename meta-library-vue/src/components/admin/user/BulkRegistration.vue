@@ -34,13 +34,6 @@ export default {
       }
     }
   },
-  watch: {
-    dialogFormVisible(newVal) {
-      if (!newVal) {
-        this.$refs.userForm.clearValidate()
-      }
-    }
-  },
   methods: {
     clear() {
       this.$refs.userForm.resetFields()

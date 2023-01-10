@@ -37,13 +37,6 @@ export default {
       },
     }
   },
-  watch: {
-    dialogFormVisible(newVal) {
-      if (!newVal) {
-        this.$refs.roleForm.clearValidate()
-      }
-    }
-  },
   methods: {
     clear() {
       this.$refs.roleForm.resetFields()

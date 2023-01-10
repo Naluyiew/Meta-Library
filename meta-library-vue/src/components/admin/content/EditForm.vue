@@ -73,17 +73,13 @@ export default {
       formLabelWidth: '100px'
     }
   },
-  watch: {
-    dialogFormVisible(newVal) {
-      if (!newVal) {
-        this.$refs.dataForm.clearValidate()
-      }
-    }
-  },
   methods: {
     clear() {
       this.$refs.imgUpload.clear()
-      this.$refs.dataForm.resetFields()
+      // 重置表单，包括校验提示
+      this.$nextTick(() => {
+        this.$refs.dataForm.resetFields();
+      });
     },
     onSubmit() {
       this.$refs.dataForm.validate((valid) => {

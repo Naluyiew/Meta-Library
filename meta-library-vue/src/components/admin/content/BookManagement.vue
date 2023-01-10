@@ -65,16 +65,19 @@ export default {
     editBook(item) {
       this.$refs.edit.dialogFormVisible = true
       const { id, title, author, press, date, cover, abs, category } = item
-      this.$refs.edit.form = {
-        id,
-        title,
-        author,
-        press,
-        date,
-        cover,
-        abs,
-        cid: String(category.id)
-      }
+      // 数据回显
+      this.$nextTick(() => {
+        this.$refs.edit.form = {
+          id,
+          title,
+          author,
+          press,
+          date,
+          cover,
+          abs,
+          cid: String(category.id)
+        }
+      })
     },
     loadBooks() {
       this.$req.get('/books').then(result => {

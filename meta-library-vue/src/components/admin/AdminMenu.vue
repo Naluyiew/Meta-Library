@@ -1,7 +1,7 @@
 <template>
   <el-menu class="menu-admin" :default-active="currentPath" router mode="vertical" background-color="#1e2b36"
     text-color="#fff" active-text-color="#ffd04b">
-    <el-submenu v-for="(item, i) in adminMenus" :key="item.path" :index="String(i)" style="text-align:left;">
+    <el-submenu v-for="(item, i) in adminMenus" :key="i" :index="String(i)" style="text-align:left;">
       <span slot="title" style="font-size:16px;">
         <i :class="item.iconCls"></i>
         {{ item.nameZh }}
