@@ -30,7 +30,7 @@
     </div>
     <!-- 分页 -->
     <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pagesize"
-      :total="books.length" style="white-space:normal;">
+      :total="books.length" :hide-on-single-page="onSinglePage" style="white-space:normal;margin-top:10px;">
     </el-pagination>
   </div>
 </template>
@@ -51,6 +51,11 @@ export default {
   },
   mounted: function () {
     this.loadBooks()
+  },
+  computed: {
+    onSinglePage() {
+      return this.books.length <= 18
+    }
   },
   methods: {
     loadBooks() {

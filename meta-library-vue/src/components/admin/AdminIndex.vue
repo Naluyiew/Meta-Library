@@ -7,7 +7,7 @@
       <el-aside style="width:32%;max-width: 250px;">
         <AdminMenu />
       </el-aside>
-      <el-main>
+      <el-main style="padding:10px 20px 0px;">
         <router-view />
       </el-main>
     </el-container>

@@ -1,10 +1,10 @@
 <template>
-  <div style="padding:10px;">
+  <div style="padding:10px 10px 0px;">
     <!-- 添加角色 -->
     <RoleCreate @onSubmit="loadRoles()" />
     <!-- 展示角色信息 -->
     <el-card style="width: 95%; margin-top:20px;">
-      <el-table :data="roles" stripe :height="tableHeight">
+      <el-table :data="roles.slice((currentPage - 1) * pagesize, currentPage * pagesize)" stripe :height="tableHeight">
         <el-table-column type="index" width="80">
         </el-table-column>
         <el-table-column prop="name" label="角色名" fit>
@@ -29,6 +29,10 @@
           <h1>{{ tip }}</h1>
         </template>
       </el-table>
+      <!-- 分页 -->
+      <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pagesize"
+        :total="roles.length" :hide-on-single-page="onSinglePage" style="white-space:normal;margin-top:10px">
+      </el-pagination>
     </el-card>
     <!-- 修改角色信息 -->
     <el-dialog title="修改角色信息" :visible.sync="dialogFormVisible" style="min-width:600px;">
@@ -78,13 +82,20 @@ export default {
         children: 'children'
       },
       tableHeight: window.innerHeight - 280,
-      tip: ''
+      tip: '',
+      currentPage: 1,
+      pagesize: 10
     }
   },
   mounted() {
     this.loadRoles()
     this.loadPerms()
     this.loadMenus()
+  },
+  computed: {
+    onSinglePage() {
+      return this.roles.length <= 10
+    }
   },
   methods: {
     loadRoles() {
@@ -150,7 +161,10 @@ export default {
       this.$req.put(`/admin/role/menu?rid=${id}`, {
         menusIds: this.$refs.tree.getCheckedKeys()
       })
-    }
+    },
+    handleCurrentChange(currentPage) {
+      this.currentPage = currentPage
+    },
   }
 }
 </script>

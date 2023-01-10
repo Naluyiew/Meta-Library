@@ -1,10 +1,10 @@
 <template>
-  <div style="padding:10px;">
+  <div style="padding:10px 10px 0px;">
     <!-- 添加用户 -->
     <BulkRegistration @onSubmit="loadUsers()" />
     <!-- 展示用户信息 -->
     <el-card style="width: 95%; margin-top:20px;">
-      <el-table :data="users" stripe :height="tableHeight">
+      <el-table :data="users.slice((currentPage - 1) * pagesize, currentPage * pagesize)" stripe :height="tableHeight">
         <el-table-column type="index" width="80">
         </el-table-column>
         <el-table-column prop="username" label="用户名" fit>
@@ -27,6 +27,10 @@
           <h1>{{ tip }}</h1>
         </template>
       </el-table>
+      <!-- 分页 -->
+      <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pagesize"
+        :total="users.length" :hide-on-single-page="onSinglePage" style="white-space:normal;margin-top:10px">
+      </el-pagination>
     </el-card>
     <!-- 修改用户信息 -->
     <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible" style="min-width:600px;">
@@ -64,12 +68,19 @@ export default {
       selectedUser: [],
       selectedRolesIds: [],
       tableHeight: window.innerHeight - 280,
-      tip: ''
+      tip: '',
+      currentPage: 1,
+      pagesize: 10
     }
   },
   mounted() {
     this.loadUsers()
     this.loadRoles()
+  },
+  computed: {
+    onSinglePage() {
+      return this.users.length <= 10
+    }
   },
   methods: {
     loadUsers() {
@@ -126,7 +137,10 @@ export default {
       }).catch(message => {
         this.$alert(message)
       })
-    }
+    },
+    handleCurrentChange(currentPage) {
+      this.currentPage = currentPage
+    },
   }
 }
 </script>

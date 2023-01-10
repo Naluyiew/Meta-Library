@@ -1,11 +1,11 @@
 <template>
-  <div style="padding:10px;">
+  <div style="padding:10px 10px 0px;">
     <!-- 添加/修改图书 -->
     <EditForm @onSubmit="loadBooks()" ref="edit" />
     <!-- 展示图书信息 -->
     <el-card v-loading="loading" element-loading-text="加载中" element-loading-spinner="el-icon-loading"
       style="width: 95%; margin-top:20px;">
-      <el-table :data="books" stripe :height="tableHeight">
+      <el-table :data="books.slice((currentPage - 1) * pagesize, currentPage * pagesize)" stripe :height="tableHeight">
         <el-table-column type="index" width="50">
         </el-table-column>
         <el-table-column type="expand">
@@ -41,6 +41,10 @@
           <h1>{{ tip }}</h1>
         </template>
       </el-table>
+      <!-- 分页 -->
+      <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pagesize"
+        :total="books.length" :hide-on-single-page="onSinglePage" style="white-space:normal;margin-top:10px">
+      </el-pagination>
     </el-card>
   </div>
 </template>
@@ -55,11 +59,18 @@ export default {
       books: [],
       loading: true,
       tableHeight: window.innerHeight - 280,
-      tip: ''
+      tip: '',
+      currentPage: 1,
+      pagesize: 10
     }
   },
   mounted() {
     this.loadBooks()
+  },
+  computed: {
+    onSinglePage() {
+      return this.books.length <= 10
+    }
   },
   methods: {
     editBook(item) {
@@ -104,7 +115,10 @@ export default {
           message: '取消删除'
         })
       })
-    }
+    },
+    handleCurrentChange(currentPage) {
+      this.currentPage = currentPage
+    },
   }
 }
 </script>
