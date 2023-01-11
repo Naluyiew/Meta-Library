@@ -35,7 +35,7 @@
       </el-pagination>
     </el-card>
     <!-- 修改角色信息 -->
-    <el-dialog title="修改角色信息" :visible.sync="dialogFormVisible" style="min-width:600px;">
+    <el-dialog title="修改角色信息" :visible.sync="dialogFormVisible" @close="clear" style="min-width:600px;">
       <el-form v-model="selectedRole" style="text-align: left" ref="dataForm">
         <el-form-item label="角色名" label-width="100px" prop="username">
           <el-input v-model="selectedRole.name" autocomplete="off"></el-input>
@@ -161,6 +161,9 @@ export default {
       this.$req.put(`/admin/role/menu?rid=${id}`, {
         menusIds: this.$refs.tree.getCheckedKeys()
       })
+    },
+    clear() {
+      this.$refs.tree.setCheckedKeys([])
     },
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage
