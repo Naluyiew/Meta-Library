@@ -4,16 +4,16 @@
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` char(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `username` char(255) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `salt` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `salt` varchar(255) DEFAULT NULL,
   `enabled` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 -- -----------------
 -- Records of user
 -- -----------------
-INSERT INTO `user` VALUES (1,'admin','db6151e3738551e61e707f9dae2b788a','/qr3X0NicrCOk4OaiU7fqA==',1),(2,'visitor','4857cf4b3c171169ecc914741434f90d','kSgyuIwfhwuwh7aQDna9Ew==',1),(3,'editor','e5e755a0e5150798e3d04357747bc977','hMRP2iWdfWKkWgFWLNeo4w==',1);
+INSERT INTO `user` VALUES (1,'admin','db6151e3738551e61e707f9dae2b788a','/qr3X0NicrCOk4OaiU7fqA==',1),(2,'editor','e5e755a0e5150798e3d04357747bc977','hMRP2iWdfWKkWgFWLNeo4w==',1),(3,'visitor','4857cf4b3c171169ecc914741434f90d','kSgyuIwfhwuwh7aQDna9Ew==',1);
 
 
 -- ------------------------------
@@ -24,7 +24,7 @@ CREATE TABLE `category` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 -- ----------------------
 -- Records of category
 -- ----------------------
@@ -47,7 +47,7 @@ CREATE TABLE `book` (
   PRIMARY KEY (`id`),
   KEY `fk_book_category_on_cid` (`cid`),
   CONSTRAINT `fk_book_category_on_cid` FOREIGN KEY (`cid`) REFERENCES `category` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 -- ------------------
 -- Records of book
 -- ------------------
@@ -62,16 +62,16 @@ CREATE TABLE `admin_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `path` varchar(64) DEFAULT NULL,
   `name` varchar(64) DEFAULT NULL,
-  `name_zh` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `icon_cls` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `name_zh` varchar(64) DEFAULT NULL,
+  `icon_cls` varchar(64) DEFAULT NULL,
   `component` varchar(64) DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 -- --------------------------
 -- Records of admin_menu
 -- --------------------------
-INSERT INTO `admin_menu` VALUES (1,'/admin','AdminIndex','首页','el-icon-s-home','AdminIndex',0),(2,'/admin/home','AdminHome','系统主页',NULL,'home/AdminHome',1),(3,'/admin','User','用户管理','el-icon-user','AdminIndex',0),(4,'/admin','Content','内容管理','el-icon-tickets','AdminIndex',0),(5,'/admin/user/profile','UserProfile','用户信息',NULL,'user/UserProfile',3),(6,'/admin/user/role','UserRole','角色配置',NULL,'user/UserRole',3),(7,'/admin/content/book','BookManagement','图书管理',NULL,'content/BookManagement',4);
+INSERT INTO `admin_menu` VALUES (1,'/admin','AdminIndex','首页','el-icon-s-home','AdminIndex',0),(2,'/admin/home','AdminHome','系统主页',NULL,'home/AdminHome',1),(3,'/admin','User','用户管理','el-icon-user','AdminIndex',0),(4,'/admin/user/profile','UserProfile','用户信息',NULL,'user/UserProfile',3),(5,'/admin/user/role','UserRole','角色配置',NULL,'user/UserRole',3),(6,'/admin','Content','内容管理','el-icon-tickets','AdminIndex',0),(7,'/admin/content/book','BookManagement','图书管理',NULL,'content/BookManagement',6);
 
 
 -- --------------------------------
@@ -80,15 +80,15 @@ INSERT INTO `admin_menu` VALUES (1,'/admin','AdminIndex','首页','el-icon-s-hom
 DROP TABLE IF EXISTS `admin_role`;
 CREATE TABLE `admin_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `name_zh` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `name_zh` varchar(100) DEFAULT NULL,
   `enabled` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 -- ------------------------
 -- Records of admin_role
 -- ------------------------
-INSERT INTO `admin_role` VALUES (1,'sysAdmin','系统管理员',1),(2,'contentManager','内容管理员',1),(3,'visitor','访客',1),(9,'test','测试角色',1);
+INSERT INTO `admin_role` VALUES (1,'sysAdmin','系统管理员',1),(2,'contentManager','内容管理员',1),(3,'visitor','访客',1);
 
 
 -- ---------------------------------------
@@ -97,15 +97,15 @@ INSERT INTO `admin_role` VALUES (1,'sysAdmin','系统管理员',1),(2,'contentMa
 DROP TABLE IF EXISTS `admin_permission`;
 CREATE TABLE `admin_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `desc_` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `url` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `desc_` varchar(100) DEFAULT NULL,
+  `url` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 -- --------------------------------
 -- Records of admin_permission
 -- --------------------------------
-INSERT INTO `admin_permission` VALUES (1,'users_management','用户管理','/api/admin/user'),(2,'roles_management','角色管理','/api/admin/role'),(3,'content_management','内容管理','/api/admin/content');
+INSERT INTO `admin_permission` VALUES (1,'users_management','用户管理','/api/admin/user'),(2,'content_management','内容管理','/api/admin/content');
 
 
 -- --------------------------------------
@@ -119,11 +119,11 @@ CREATE TABLE `admin_user_role` (
   PRIMARY KEY (`id`),
   KEY `fk_operator_role_operator_1` (`uid`),
   KEY `fk_operator_role_role_1` (`rid`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 -- ------------------------------
 -- Records of admin_user_role
 -- ------------------------------
-INSERT INTO `admin_user_role` VALUES (10,3,2),(20,1,1),(30,2,3);
+INSERT INTO `admin_user_role` VALUES (10,1,1),(20,2,2),(30,3,3);
 
 
 -- ----------------------------------------
@@ -135,11 +135,11 @@ CREATE TABLE `admin_role_menu` (
   `rid` int(11) DEFAULT NULL,
   `mid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 -- --------------------------------
 -- Records of admin_role_menu
 -- --------------------------------
-INSERT INTO `admin_role_menu` VALUES (2,3,1),(4,3,2),(6,9,1),(8,9,2),(10,1,1),(12,1,2),(14,1,3),(16,1,6),(18,1,7),(20,1,4),(22,1,5),(24,2,1),(26,2,2),(28,2,4);
+INSERT INTO `admin_role_menu` VALUES (2,1,1),(4,1,2),(6,1,3),(8,1,4),(10,1,5),(12,1,6),(14,1,7),(16,2,1),(18,2,2),(20,2,6),(22,2,7),(24,3,1),(26,3,2);
 
 
 -- ---------------------------------------------
@@ -153,9 +153,8 @@ CREATE TABLE `admin_role_permission` (
   PRIMARY KEY (`id`),
   KEY `fk_role_permission_role_1` (`rid`),
   KEY `fk_role_permission_permission_1` (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 -- -------------------------------------
 -- Records of admin_role_permission
 -- -------------------------------------
-INSERT INTO `admin_role_permission` VALUES (5,3,3),(10,1,1),(15,1,2),(20,1,3),(25,2,3);
-
+INSERT INTO `admin_role_permission` VALUES (2,1,1),(4,1,2),(6,1,3),(8,2,2);
