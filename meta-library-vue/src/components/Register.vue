@@ -65,8 +65,9 @@ export default {
 }
 
 .register-container {
-  width: 350px;
-  margin: 90px auto;
+  width: 25%;
+  min-width: 300px;
+  margin: 8% auto;
   padding: 15px 35px 35px;
   border-radius: 20px;
   background: #fff;
