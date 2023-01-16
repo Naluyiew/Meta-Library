@@ -1,22 +1,34 @@
 package cn.naluyiew.metalibrary.config;
 
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@SpringBootConfiguration
+
+@Configuration
 public class MyWebConfigurer implements WebMvcConfigurer {
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        //所有请求都允许跨域，使用这种配置方法就不能在 interceptor 中再配置 header
-        registry.addMapping("/**")
-                .allowCredentials(true)
-                .allowedOrigins("http://localhost:8080")
-                .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
-                .allowedHeaders("*")
-                .maxAge(3600);
+    @Bean
+    public FilterRegistrationBean corsFilter() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        // 允许向该服务器提交请求的URI，*表示全部允许；在SpringMVC中，如果设成*，会自动转成当前请求头中的Origin
+        config.addAllowedOriginPattern("*");
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        config.setMaxAge(18000L);
+        source.registerCorsConfiguration("/**", config);
+
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        // 设置监听器的优先级
+        bean.setOrder(0);
+        return bean;
     }
 
     @Override
