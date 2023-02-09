@@ -85,6 +85,7 @@ public class ShiroConfiguration {
     @Bean
     public MLRealm getMLRealm() {
         MLRealm mlRealm = new MLRealm();
+        //设置加密方式
         mlRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return mlRealm;
     }
@@ -94,6 +95,8 @@ public class ShiroConfiguration {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         hashedCredentialsMatcher.setHashAlgorithmName("md5");
         hashedCredentialsMatcher.setHashIterations(2);
+        // 转化为16进制(与入库时保持一致)
+        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
         return hashedCredentialsMatcher;
     }
 
