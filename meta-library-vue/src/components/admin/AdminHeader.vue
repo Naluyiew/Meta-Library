@@ -52,10 +52,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .admin-header {
   height: 100%;
   opacity: 0.85;
   box-sizing: border-box;
+}
+
+.el-menu--popup{
+  min-width: 155px !important;
 }
 </style>

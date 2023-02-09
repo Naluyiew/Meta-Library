@@ -65,6 +65,7 @@ export default {
 .login-container {
   width: 25%;
   min-width: 300px;
+  max-width: 400px;
   margin: 8% auto;
   padding: 15px 35px 35px;
   border-radius: 20px;
